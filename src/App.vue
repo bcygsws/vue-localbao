@@ -1,7 +1,7 @@
 <template>
   <div class="app_container">
     <!-- 在当前组件中this.$route就可以获取router.js中配置的路由对象 -->
-    <mt-header title="123" fixed class="header-fixed">
+    <mt-header :title="$route.meta.title" fixed class="header-fixed">
       <span slot="left" v-show="flag" @click="goBack">
         <mt-button icon="back">返回</mt-button>
       </span>

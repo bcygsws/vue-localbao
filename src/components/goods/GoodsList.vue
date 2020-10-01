@@ -34,7 +34,7 @@
       >
         <!--item.id等于95的打印机图片显示异常，为数据接口的问题，使用v-if和v-else处理，用本地图片替代-->
         <img v-if="item.id != 95" :src="item.img_url" alt="" />
-        <img v-else src="../../images/alt-print.jpg" alt="" />
+        <img v-else src="../../assets/images/alt-print.jpg" alt="" />
         <h3>{{ item.title }}</h3>
         <dl>
           <dt class="price">

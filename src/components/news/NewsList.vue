@@ -10,7 +10,7 @@
         v-for="item in newslist"
         :key="item.id"
       >
-        <router-link :to="'/home/newslist/' + item.id">
+        <router-link :to="'/home/newsinfo/' + item.id">
           <img class="mui-media-object mui-pull-left" :src="item.img_url" />
           <div class="mui-media-body">
             <h3>{{ item.title }}</h3>

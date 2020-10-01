@@ -8,21 +8,31 @@ import NewsInfo from '../components/news/NewsInfo.vue';
 import NewsList from '../components/news/NewsList.vue';
 import PhotoList from '../components/photos/PhotoList.vue';
 import PhotoInfo from '../components/photos/PhotoInfo.vue';
+import GoodsList from '../components/goods/GoodsList.vue';
+import GoodsInfo from '../components/goods/GoodsInfo.vue';
+import GoodsDesc from '../components/goods/GoodsDesc.vue';
+import GoodsComment from '../components/goods/GoodsComment.vue';
+import videoList from '../components/video/Video.vue';
+import feedback from '../components/feedback/FeedBack.vue';
+import informUs from '../components/informUs/InformUs.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    redirect: '/home'
+    redirect: '/home',
+    meta: { title: '生活宝' }
   },
   {
     path: '/home',
-    component: Home
+    component: Home,
+    meta: { title: '首页' }
   },
   {
     path: '/member',
-    component: Member
+    component: Member,
+    meta: { title: '会员' }
   },
   {
     path: '/shopping',
@@ -31,7 +41,8 @@ const routes = [
   },
   {
     path: '/search',
-    component: Search
+    component: Search,
+    meta: { title: '搜索' }
   },
   {
     path: '/home/newslist',
@@ -39,7 +50,7 @@ const routes = [
     meta: { title: '新闻资讯' }
   },
   {
-    path: '/home/newslist/:id',
+    path: '/home/newsinfo/:id',
     component: NewsInfo,
     meta: { title: '资讯详情' }
   },
@@ -49,9 +60,59 @@ const routes = [
     meta: { title: '趣图' }
   },
   {
-    path: '/home/photolist/:id',
+    path: '/home/photoinfo/:id',
     component: PhotoInfo,
-    meta: { title: '趣图' }
+    meta: { title: '趣图掠影' }
+  },
+  {
+    path: '/home/goodslist',
+    component: GoodsList,
+    meta: { title: '商品列表' }
+  },
+  {
+    name: 'info',
+    path: '/home/goodsInfo/:id',
+    component: GoodsInfo,
+    meta: {
+      title: '商品详情'
+    }
+  },
+  {
+    name: 'desc',
+    path: '/home/goodsDesc/:id',
+    component: GoodsDesc,
+    meta: {
+      title: '图文介绍'
+    }
+  },
+  {
+    name: 'comment',
+    path: '/home/goodsComment/:id',
+    component: GoodsComment,
+    meta: {
+      title: '商品评论'
+    }
+  },
+  {
+    path: '/home/videoList',
+    component: videoList,
+    meta: {
+      title: '视频专区'
+    }
+  },
+  {
+    path: '/home/feedback',
+    component: feedback,
+    meta: {
+      title: '留言反馈'
+    }
+  },
+  {
+    path: '/home/informUs',
+    component: informUs,
+    meta: {
+      title: '联系我们'
+    }
   }
 ];
 
