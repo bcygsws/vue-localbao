@@ -2,7 +2,7 @@
   <div id="app_container">
     <!-- 在当前组件中this.$route就可以获取router.js中配置的路由对象 -->
     <mt-header fixed title="123">
-      <span slot="left">
+      <span slot="left" v-show="flag" @click="goBack">
         <mt-button icon="back">返回</mt-button>
       </span>
     </mt-header>
@@ -43,8 +43,102 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      // 返回按钮的标志位，主页App.vue是最前面的页面，默认将“返回”隐藏
+      flag: false
+    };
+  },
+  // mounted() {
+  //   // this.rightBarInit();
+  //   // // 1.禁止双指放大
+  //   // document.body.addEventListener(
+  //   // 	'touchstart',
+  //   // 	function(event) {
+  //   // 		if (event.touches.length > 1) {
+  //   // 			event.preventDefault;
+  //   // 		}
+  //   // 	},
+  //   // 	false,
+  //   // );
+  //   // var lastTouchEnd = 0;
+  //   // document.body.addEventListener(
+  //   // 	'touchend',
+  //   // 	function(event) {
+  //   // 		var now = new Date().getTime();
+  //   // 		if (now - lastTouchEnd <= 300) {
+  //   // 			e.preventDefault();
+  //   // 		}
+  //   // 		lastTouchEnd = now;
+  //   // 	},
+  //   // 	false,
+  //   // );
+  // },
+  methods: {
+    // rightBarInit() {
+    // 	// 路由切换时，默认滚动条和重写的滚动条都隐藏，只有滚动时才显示better-scroll滚动条
+    // 	this.$nextTick(() => {
+    // 		this.scroll = new Bscroll(this.$refs.wrapper, {
+    // 			// 滚动方向为y轴
+    // 			scrollY: true,
+    // 			// 纵轴方向初始化位置
+    // 			startY: 40,
+    // 			// 页面能够点击
+    // 			click: true,
+    // 			// 页面能够触摸选中
+    // 			tap: 'tap',
+    // 			// 滚动的时候会派发scroll事件，会截流
+    // 			probeType: 1,
+    // 			// 人的手指无法向水平和垂直滚动条那样做到水平或者垂直滚动，让其自由滚动
+    // 			freeScroll: true,
+    // 			disableTouch: false,
+    // 			bounce: {
+    // 				top: true,
+    // 				bottom: true,
+    // 			},
+    // 			bounceTime: 1800,
+    // 			preventDefaultException: {
+    // 				app_container: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/,
+    // 				// 当滚动超过边缘时会有一段回弹动画
+    // 			},
+    // 		});
+    // 	});
+    // },
+    goBack() {
+      // 点击一次页面中“后退”按钮，返回到上一次，即：go(-1)
+      this.$router.go(-1);
+    }
+  },
+  // watch属性监控路由地址的变化，以确定【返回】按钮的显示或隐藏，当路由地址为："/home"表示在home主页，【返回】按钮应隐藏
+  // 在其他非"/home"路由时，按钮都应该隐藏
+  created() {
+    if (this.$route.path === '/home') {
+      return (this.flag = true);
+    } else {
+      return (this.flag = false);
+    }
+    // eslint中不准许使用三元表达式
+    // this.flag = this.$route.path === '/home' ? false : true;
+  },
+  watch: {
+    // 路由切换时，虚拟DOM会进行运算，只会重绘router-view那一部分内容。通过watch侦听当前路由的值是否为/home,以决定是否隐藏返回按钮。
+    // bug：然而当前页面如果处于非/home页面，一旦点了“刷新”该页面，flag变量值将被销毁，而回到默认值false,返回按钮在非/home页也将隐藏。为此，
+    // 需要在created生命周期钩子中提前判断该页面是否为/home,非/home页，flag就为true，要保持返回按钮的显示状态。反之，则flag为false,隐藏
+    // 返回按钮
+    '$route.path': function(newVal) {
+      if (newVal === '/home') {
+        this.flag = false;
+      } else {
+        this.flag = true;
+      }
+    }
+  }
+};
+</script>
 <style lang="less" scoped>
-.app_container {
+/deep/ .app_container {
   /* 限制界面x方向的滚动，避免出现横向滚动条；只允许纵向的滚动条 */
   /* overflow-x: hidden; */
   /* 图片列表页向上卷曲时，由于该页面中顶部滑动栏也采用了定位，而且是在顶部固定栏header后面定义的，会压在header上面，因此需手动提高
