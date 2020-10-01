@@ -1,27 +1,39 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Home from '../components/tabBar/Home.vue';
+import Member from '../components/tabBar/Member.vue';
+import Shopping from '../components/tabBar/Shopping.vue';
+import Search from '../components/tabBar/Search.vue';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    redirect: Home
+  },
+  {
+    path: '/home',
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/member',
+    component: Member
+  },
+  {
+    path: '/shopping',
+    component: Shopping
+  },
+  {
+    path: '/search',
+    component: Search
   }
-]
+];
 
 const router = new VueRouter({
-  routes
-})
+  routes,
+  // 在VueRouter对象中，和routes并列的属性，还有一个linkActiveClass。该属性不设置的时候，路由选中的时候，路由配置好将添加一个默认的排他的router-link-active属性。而一旦设置linkActiveClass为其他值，router-link-active将不复存在，取而代之的是设定值，本例中是mui-active
+  linkActiveClass: 'mui-active'
+});
 
-export default router
+export default router;
