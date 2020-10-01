@@ -4,6 +4,10 @@ import Home from '../components/tabBar/Home.vue';
 import Member from '../components/tabBar/Member.vue';
 import Shopping from '../components/tabBar/Shopping.vue';
 import Search from '../components/tabBar/Search.vue';
+import NewsInfo from '../components/news/NewsInfo.vue';
+import NewsList from '../components/news/NewsList.vue';
+import PhotoList from '../components/photos/PhotoList.vue';
+import PhotoInfo from '../components/photos/PhotoInfo.vue';
 
 Vue.use(VueRouter);
 
@@ -22,11 +26,32 @@ const routes = [
   },
   {
     path: '/shopping',
-    component: Shopping
+    component: Shopping,
+    meta: { title: '购物' }
   },
   {
     path: '/search',
     component: Search
+  },
+  {
+    path: '/home/newslist',
+    component: NewsList,
+    meta: { title: '新闻资讯' }
+  },
+  {
+    path: '/home/newslist/:id',
+    component: NewsInfo,
+    meta: { title: '资讯详情' }
+  },
+  {
+    path: '/home/photolist',
+    component: PhotoList,
+    meta: { title: '趣图' }
+  },
+  {
+    path: '/home/photolist/:id',
+    component: PhotoInfo,
+    meta: { title: '趣图' }
   }
 ];
 

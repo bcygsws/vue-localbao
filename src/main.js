@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import App from './App.vue';
-import router from './router/index.js';
 import './plugins/element.js';
+import router from './router/index.js';
+// 引入mint-ui样式
+
 // 引入mui的样式、js文件和字体文件
 import './plugins/mui/css/mui.min.css';
 // tab徽章用到扩展字体，需要另外引入字体样式和扩展字体文件

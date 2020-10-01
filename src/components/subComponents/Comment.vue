@@ -26,19 +26,19 @@
   </div>
 </template>
 <script>
-import { Toast } from "mint-ui";
+import { Toast } from 'mint-ui';
 export default {
   data() {
     return {
       // 存储评论列表数组
       cmtlist: [],
-      msg: "",
+      msg: '',
       // 默认加载第一页的内容，即pageIndex=1
-      pageIndex: 1,
+      pageIndex: 1
     };
   },
   // 从newsinfo父组件中获取id值，给子组件comment
-  props: ["listId"],
+  props: ['listId'],
 
   methods: {
     // 获取评论列表
@@ -46,9 +46,9 @@ export default {
       this.$http
         // 将pageIndex值用变量表示，当点击【加载更多】按钮时，使得pageIndex值发生变化
         // .get("api/getcomments/" + this.listId + "?pageindex=1")
-        .get("api/getcomments/" + this.listId + "?pageindex=" + this.pageIndex)
-        .then((result) => {
-          if (result.status == 200) {
+        .get('api/getcomments/' + this.listId + '?pageindex=' + this.pageIndex)
+        .then(result => {
+          if (result.status === 200) {
             console.log(result.body.message);
             // a.第一次默认显示第一页：直接赋值给cmtlist就可以了，等效于第一次获得的数据.concat([])
             // b.第二页时，第二页的数据拼接到上一次的数据前面，于是result.body.message.concat(this.cmtlist)
@@ -56,19 +56,18 @@ export default {
             // c.直到加载完所有页数据，此时result.body.message为[]。[].concat([1,2,3]) 结果是[1,2,3],说明空数组也是concat方法的
             this.cmtlist = result.body.message.concat(this.cmtlist);
           } else {
-            Toast("获取评论列表失败……");
+            Toast('获取评论列表失败……');
           }
         });
     },
     // 提交评论
     comitComment() {
       // 提交信息前，首先要校验textarea框中是否输入了空内容
-      if (this.msg.trim().length == 0) {
-        Toast("请您先输入评论内容再提交……");
-        return; //跳出程序流程
+      if (this.msg.trim().length === 0) {
+        Toast('请您先输入评论内容再提交……');
+        return; // 跳出程序流程
       }
-      /* 
-      vue的post请求有三个参数：
+      /* vue的post请求有三个参数：
       参数1：请求URL
       参数2：post请求数据，是一个对象{}。本例中参照接口说明文档，为{content:内容}
       参数3：定义提交表单的数据格式：{emulateJSON:true},默认格式是'application/x-www-form-urlencoded'
@@ -77,20 +76,20 @@ export default {
       注意：trim()方法的作用是去除字符串前面和后面的空白字符
        */
       this.$http
-        .post("api/postcomment/" + this.listId, { content: this.msg.trim() })
-        .then((result) => {
+        .post('api/postcomment/' + this.listId, { content: this.msg.trim() })
+        .then(result => {
           // 其他地方引用数据接口是，result.status==200，表示获取到了数据；此处是参考数据接口文档进行判断。当result.body.status==0时，表示post提交请求已经顺利完成
-          if (result.body.status == 0) {
+          if (result.body.status === 0) {
             // post请求发送成功
             // 阻止一个数据对象，用于渲染
             var dataObj = {
               add_time: Date.now(),
-              user_name: "匿名用户",
-              content: this.msg.trim(),
+              user_name: '匿名用户',
+              content: this.msg.trim()
             };
             this.cmtlist.unshift(dataObj);
             // 提交评论后，清空文本域中的内容，方便下次输入评论
-            this.msg = "";
+            this.msg = '';
           }
         });
     },
@@ -98,11 +97,11 @@ export default {
     getMore() {
       this.pageIndex++;
       this.getCommentList();
-    },
+    }
   },
   created() {
     this.getCommentList();
-  },
+  }
 };
 </script>
 
@@ -144,7 +143,7 @@ export default {
       padding: 10px 0;
     }
   }
-  .mint-button--primary{
+  .mint-button--primary {
     margin-bottom: 15px;
   }
 }

@@ -1,7 +1,7 @@
 <template>
-  <div id="app_container">
+  <div class="app_container">
     <!-- 在当前组件中this.$route就可以获取router.js中配置的路由对象 -->
-    <mt-header fixed title="123">
+    <mt-header title="123" fixed class="header-fixed">
       <span slot="left" v-show="flag" @click="goBack">
         <mt-button icon="back">返回</mt-button>
       </span>
@@ -138,16 +138,16 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-/deep/ .app_container {
+.app_container {
   /* 限制界面x方向的滚动，避免出现横向滚动条；只允许纵向的滚动条 */
   /* overflow-x: hidden; */
   /* 图片列表页向上卷曲时，由于该页面中顶部滑动栏也采用了定位，而且是在顶部固定栏header后面定义的，会压在header上面，因此需手动提高
      header的层级 */
-  .mint-header {
-    height: 40px;
+  header.header_fixed {
     z-index: 99;
+    height: 40px;
   }
-  .app_layout {
+  div.app_layout {
     position: absolute;
     left: 0;
     right: 0;
