@@ -79,7 +79,7 @@ export default {
         .post('api/postcomment/' + this.listId, { content: this.msg.trim() })
         .then(result => {
           // 其他地方引用数据接口是，result.status==200，表示获取到了数据；此处是参考数据接口文档进行判断。当result.body.status==0时，表示post提交请求已经顺利完成
-          if (result.body.status == 0) {
+          if (result.body.status === 0) {
             // post请求发送成功
             // 阻止一个数据对象，用于渲染
             var dataObj = {

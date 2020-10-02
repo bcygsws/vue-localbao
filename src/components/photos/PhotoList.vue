@@ -99,6 +99,7 @@ export default {
         if (result.status === 200) {
           console.log(result.body.message);
           this.photolist = result.body.message;
+          console.log(this.photolist);
         }
       });
     }

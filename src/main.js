@@ -35,8 +35,8 @@ import VueRouter from 'vue-router'; // 导入路由包
 import VueResourse from 'vue-resource';
 import VuePreview from 'vue-preview';
 import './assets/css/global.less';
-import VueLazyLoad from 'vue-lazyload';
 import Vuex from 'vuex';
+import VueLazyLoad from 'vue-lazyload';
 // import { Header, Swipe, SwipeItem, Button, Switch, Search } from 'mint-ui';
 Vue.use(VueLazyLoad);
 Vue.config.productionTip = false;
