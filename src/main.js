@@ -36,6 +36,8 @@ import VueResourse from 'vue-resource';
 import VuePreview from 'vue-preview';
 import './assets/css/global.less';
 import Vuex from 'vuex';
+// 移动端适配导入包
+import 'lib-flexible';
 import VueLazyLoad from 'vue-lazyload';
 // import { Header, Swipe, SwipeItem, Button, Switch, Search } from 'mint-ui';
 Vue.use(VueLazyLoad);
