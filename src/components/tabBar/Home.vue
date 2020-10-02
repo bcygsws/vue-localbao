@@ -20,7 +20,7 @@
         <img src="../../images/menu1.png" />
       </mt-swipe-item>
     </mt-swipe> -->
-    <swipe :lunbo="lunboList" :isfull="true"></swipe>
+    <swipe :swipeList="lunboList" :isFull="true"></swipe>
     <!-- 六宫格，又九宫格改造而来 -->
     <ul class="mui-table-view mui-grid-view mui-grid-9 six_gird">
       <li class="mui-table-view-cell mui-media mui-col-xs-4">

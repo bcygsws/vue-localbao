@@ -1,13 +1,12 @@
 <template>
   <div class="app_container">
     <!-- 在当前组件中this.$route就可以获取router.js中配置的路由对象 -->
-    <mt-header :title="$route.meta.title" fixed class="header-fixed">
+    <mt-header :title="$route.meta.title" fixed class="header_fixed">
       <!-- slot="left"表示左边显示元素 -->
       <span v-show="flag" @click="goBack" slot="left">
         <mt-button icon="back">返回</mt-button>
       </span>
     </mt-header>
-    <!-- <h1>这是App组件</h1> -->
     <!-- 这是tabbar按钮 -->
     <nav class="mui-bar mui-bar-tab">
       <!-- 在router.js中也自定义一个mui-active后，必须删除其中默认的类样式mui-active,否则会出现同时选中home和其他三个之一共两个按钮显示选中蓝色的情况 -->
@@ -126,6 +125,7 @@ export default {
     // eslint中不准许使用三元表达式
     // this.flag = this.$route.path === '/home' ? false : true;
     this.initFlag();
+    // console.log(this.$router);
   },
   watch: {
     // 路由切换时，虚拟DOM会进行运算，只会重绘router-view那一部分内容。通过watch侦听当前路由的值是否为/home,以决定是否隐藏返回按钮。
@@ -149,6 +149,7 @@ export default {
   /* 图片列表页向上卷曲时，由于该页面中顶部滑动栏也采用了定位，而且是在顶部固定栏header后面定义的，会压在header上面，因此需手动提高
      header的层级 */
   header.header_fixed {
+    /* 提高z-index值，使得顶部固定栏在顶层，app_layout盒子使用了绝对定位 */
     z-index: 99;
     height: 40px;
   }
@@ -234,7 +235,7 @@ export default {
 }
 /* mui-active在router文件中设定，和routes是同级属性。来设置一个选中路由时的类名，在router.js中已经定义了
     linkActiveClass:'mui-active',此处自定义了mui-active,同时也是对App.vue（覆盖后删掉第一个router-link标签中的
-    mui-active类样式，否则会出现选择非home按钮时，出现两个按钮选中蓝色的情况）中默认的mui-active进行覆盖。
+    mui-active类样式，否则会出现选择非home按钮时，出现两个按钮选中蓝色的情况）中默认的mui-active进行覆盖
      */
 .mui-bar-tab .mui-tab-item2.mui-active {
   color: #007aff;

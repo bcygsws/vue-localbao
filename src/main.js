@@ -254,6 +254,7 @@ var vm = new Vue({
   el: '#app',
   data: {},
   methods: {},
+  // 子组件以render方式引入
   render: h => h(App),
   // 路由组件要挂载在vm实例中
   router,

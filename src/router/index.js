@@ -71,7 +71,7 @@ const routes = [
   },
   {
     name: 'info',
-    path: '/home/goodsInfo/:id',
+    path: '/home/goodsinfo/:id',
     component: GoodsInfo,
     meta: {
       title: '商品详情'
@@ -79,7 +79,7 @@ const routes = [
   },
   {
     name: 'desc',
-    path: '/home/goodsDesc/:id',
+    path: '/home/goodsdesc/:id',
     component: GoodsDesc,
     meta: {
       title: '图文介绍'
@@ -87,14 +87,14 @@ const routes = [
   },
   {
     name: 'comment',
-    path: '/home/goodsComment/:id',
+    path: '/home/goodscomment/:id',
     component: GoodsComment,
     meta: {
       title: '商品评论'
     }
   },
   {
-    path: '/home/videoList',
+    path: '/home/videolist',
     component: videoList,
     meta: {
       title: '视频专区'
@@ -108,7 +108,7 @@ const routes = [
     }
   },
   {
-    path: '/home/informUs',
+    path: '/home/informus',
     component: informUs,
     meta: {
       title: '联系我们'
@@ -121,5 +121,5 @@ const router = new VueRouter({
   // 在VueRouter对象中，和routes并列的属性，还有一个linkActiveClass。该属性不设置的时候，路由选中的时候，路由配置好将添加一个默认的排他的router-link-active属性。而一旦设置linkActiveClass为其他值，router-link-active将不复存在，取而代之的是设定值，本例中是mui-active
   linkActiveClass: 'mui-active'
 });
-
+// router变量要暴露出去，在main.js中引用，挂载到vue实例vm上
 export default router;

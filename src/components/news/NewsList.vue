@@ -56,7 +56,7 @@ export default {
     width: 100%;
     .mui-media-body {
       > h3 {
-        font-size: 14px;
+        font-size: 13px;
       }
       > div.mui-ellipsis {
         display: flex;
@@ -64,7 +64,7 @@ export default {
         justify-content: space-between;
         span {
           font-size: 12px;
-          color: #007af0;
+          color: #000;
         }
       }
     }

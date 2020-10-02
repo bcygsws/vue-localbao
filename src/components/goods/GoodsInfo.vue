@@ -18,7 +18,7 @@
     <div class="mui-card">
       <div class="mui-card-content">
         <div class="mui-card-content-inner">
-          <image-swipe :lunbo="goodsLunBo" :isfull="false"></image-swipe>
+          <swipe :swipeList="goodsLunBo" :isFull="false"></swipe>
         </div>
       </div>
     </div>
@@ -186,7 +186,7 @@ export default {
     }
   },
   components: {
-    'image-swipe': swipe,
+    swipe: swipe,
     'number-box': numbox
   }
 };
