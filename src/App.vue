@@ -2,7 +2,8 @@
   <div class="app_container">
     <!-- 在当前组件中this.$route就可以获取router.js中配置的路由对象 -->
     <mt-header :title="$route.meta.title" fixed class="header-fixed">
-      <span slot="left" v-show="flag" @click="goBack">
+      <!-- slot="left"表示左边显示元素 -->
+      <span v-show="flag" @click="goBack" slot="left">
         <mt-button icon="back">返回</mt-button>
       </span>
     </mt-header>
@@ -27,9 +28,9 @@
         <!-- <span class="mui-icon-extra mui-icon-extra-cart"></span> -->
         <span class="mui-tab-label">购物车</span>
       </router-link>
-      <router-link class="mui-tab-item2" to="/search">
-        <span class="mui-icon mui-icon-search"></span>
-        <span class="mui-tab-label">搜索</span>
+      <router-link class="mui-tab-item2" to="/setting">
+        <span class="mui-icon mui-icon-gear"></span>
+        <span class="mui-tab-label">设置</span>
       </router-link>
     </nav>
     <div class="app_layout">
@@ -106,6 +107,14 @@ export default {
     // 		});
     // 	});
     // },
+    // 封装刷新页面后，flag变量销毁，回到默认值，在页面渲染出来之前。改变其值，在'/home'路径，flag为false,反之，为true
+    initFlag() {
+      if (this.$route.path === '/home') {
+        this.flag = false;
+      } else {
+        this.flag = true;
+      }
+    },
     goBack() {
       // 点击一次页面中“后退”按钮，返回到上一次，即：go(-1)
       this.$router.go(-1);
@@ -114,13 +123,9 @@ export default {
   // watch属性监控路由地址的变化，以确定【返回】按钮的显示或隐藏，当路由地址为："/home"表示在home主页，【返回】按钮应隐藏
   // 在其他非"/home"路由时，按钮都应该隐藏
   created() {
-    if (this.$route.path === '/home') {
-      return (this.flag = true);
-    } else {
-      return (this.flag = false);
-    }
     // eslint中不准许使用三元表达式
     // this.flag = this.$route.path === '/home' ? false : true;
+    this.initFlag();
   },
   watch: {
     // 路由切换时，虚拟DOM会进行运算，只会重绘router-view那一部分内容。通过watch侦听当前路由的值是否为/home,以决定是否隐藏返回按钮。
@@ -160,6 +165,7 @@ export default {
       height: 100%;
       overflow: hidden;
       overflow-y: auto;
+      background-color: #fff;
       /* 针对安卓端滚动条不显示的情况，添加以下伪元素，重写滚动条样式 */
       /* 定义滚动条的宽高及圆角 */
       &::-webkit-scrollbar {

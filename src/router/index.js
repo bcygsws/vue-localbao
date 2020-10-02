@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../components/tabBar/Home.vue';
 import Member from '../components/tabBar/Member.vue';
 import Shopping from '../components/tabBar/Shopping.vue';
-import Search from '../components/tabBar/Search.vue';
+import Setting from '../components/tabBar/Setting.vue';
 import NewsInfo from '../components/news/NewsInfo.vue';
 import NewsList from '../components/news/NewsList.vue';
 import PhotoList from '../components/photos/PhotoList.vue';
@@ -40,9 +40,9 @@ const routes = [
     meta: { title: '购物' }
   },
   {
-    path: '/search',
-    component: Search,
-    meta: { title: '搜索' }
+    path: '/setting',
+    component: Setting,
+    meta: { title: '设置' }
   },
   {
     path: '/home/newslist',

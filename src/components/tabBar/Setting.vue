@@ -1,5 +1,5 @@
 <template>
   <div>
-    <h3>搜索组件</h3>
+    <h3>设置组件</h3>
   </div>
 </template>
