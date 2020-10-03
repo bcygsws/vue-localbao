@@ -14,7 +14,8 @@ module.exports = {
         //单个的css语句需过滤的情况下，可以使用PX或Px单位
         plugins: [
           pxRem({
-            autoprefixer: {},
+            // vue-cli内部已经对该插件进行配置，再配置产生冲突
+            // autoprefixer: {},
             // lib-flexible是rem的适配插件，750px=10rem。以iPhone6屏幕为基准
             rootValue: 37.5,
             propList: ['*'], // 需要做转化处理的属性，如`hight`、`width`、`margin`等，`*`表示全部 默认全部处理

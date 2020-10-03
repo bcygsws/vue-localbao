@@ -33,66 +33,83 @@
       </router-link>
     </nav>
     <div class="app_layout" ref="layout">
-      <div class="wraper outer" ref="wrapper">
+      <div class="wrapper outer" ref="wrapper">
         <div class="content" ref="content">
           <transition>
             <router-view></router-view>
           </transition>
         </div>
       </div>
-      <!-- 为了便于控制滚动条，自己重写滚动条 -->
-      <!-- <div class="scroll_bar">
-        <div class="slide"></div>
-      </div> -->
     </div>
   </div>
 </template>
 <script>
+// 导入better-scroll插件核心包better-scroll/core
+import BScroll from '@better-scroll/core';
+//  实例化滚动条插件
+import ScrollBar from '@better-scroll/scroll-bar';
+// 滚动条插件
+BScroll.use(ScrollBar);
 export default {
   data() {
     return {
       // 返回按钮的标志位，主页App.vue是最前面的页面，默认将“返回”隐藏
-      flag: false
+      flag: false,
+      scroll: ''
     };
   },
   // watch属性监控路由地址的变化，以确定【返回】按钮的显示或隐藏，当路由地址为："/home"表示在home主页，【返回】按钮应隐藏
   // 在其他非"/home"路由时，按钮都应该隐藏
   created() {
+    this.scroll = null;
     // eslint中不准许使用三元表达式
     // this.flag = this.$route.path === '/home' ? false : true;
     this.initFlag();
     // console.log(this.$router);
   },
   mounted() {
-    // window.addEventListener('scroll', this.scrollEvent, true);
+    this.initBScroll();
+    window.addEventListener('scroll', this.scrollEvent, true);
   },
   destroyed() {
     // window.removeEventListener('scroll', this.scrollEvent, true);
   },
   methods: {
-    // scrollEvent() {
-    //   // 滚动视口高度(也就是当前元素的真实高度)
-    //   const scrollHeight = this.$refs.content.scrollHeight;
-    //   console.log(scrollHeight);
-    //   // 可见区域高度
-    //   const clientHeight = this.$refs.wrapper.clientHeight;
-    //   console.log(clientHeight);
-    //   // 滚动条顶部到浏览器顶部高度
-    //   const scrollTop = this.$refs.wrapper.scrollTop;
-    //   console.log(scrollTop);
-    //   if (scrollTop === 0) {
-    //     console.log('滚动条到顶了');
-    //     // 隐藏滚动条
-    //   } else {
-    //     this.$nextTick(() => {
-    //       // this.$refs.wrapper.style.overflowY = 'auto';
-    //     });
-    //   }
-    //   if (clientHeight + scrollTop === scrollHeight) {
-    //     console.log('滚动条触底了');
-    //     // 隐藏滚动条
-    //   }
-    // },
+    initBScroll() {
+      this.$nextTick(() => {
+        // 滚动条滑块原生对象
+        this.scroll = new BScroll(this.$refs.wrapper, {
+          scrollY: true,
+          scrollbar: true,
+          click: true,
+          tap: true
+        });
+      });
+    },
+    scrollEvent() {
+      const slide = this.$refs.slide;
+      // 滚动视口高度(也就是当前元素的真实高度)
+      const scrollHeight = this.$refs.content.scrollHeight;
+      console.log(scrollHeight);
+      // 可见区域高度
+      const clientHeight = this.$refs.wrapper.clientHeight;
+      console.log(clientHeight);
+      // 滚动条顶部到浏览器顶部高度
+      const scrollTop = this.$refs.wrapper.scrollTop;
+      console.log(scrollTop);
+      if (scrollTop === 0) {
+        console.log('滚动条到顶了');
+        // 隐藏滚动条
+      } else {
+        this.$nextTick(() => {
+          // this.$refs.wrapper.style.overflowY = 'auto';
+        });
+      }
+      if (clientHeight + scrollTop === scrollHeight) {
+        console.log('滚动条触底了');
+        // 隐藏滚动条
+      }
+    },
     // 封装刷新页面后，flag变量销毁，回到默认值，在页面渲染出来之前。改变其值，在'/home'路径，flag为false,反之，为true
     initFlag() {
       if (this.$route.path === '/home') {
@@ -150,13 +167,14 @@ export default {
       /* 针对安卓端滚动条不显示的情况，添加以下伪元素，重写滚动条样式 */
       /* 定义滚动条的宽高及圆角 */
       &::-webkit-scrollbar {
-        /* display: none; */
+        /* 兼容：设置display:none;ios端可以实现，开始滚动条隐藏，滚动屏幕，滚动条开始显示。一段时间不操作后，
+        滚动条消失。 安卓端：自己设定滚动条*/
+        display: none;
         width: 2px;
         height: 13px;
         -webkit-border-radius: 1px;
         -moz-border-radius: 1px;
         border-radius: 1px;
-
       }
       /* 滚动条没有滑块的滚动部分 */
       &::-webkit-scrollbar-track-piece {
@@ -180,25 +198,10 @@ export default {
         -moz-border-radius: 1px;
         border-radius: 1px;
       }
-    }
-    /* .scroll_bar {
-      width: 5px;
-      background-color: #eee;
-      position: fixed;
-      right: 0;
-      top: 40px;
-      bottom: 50px;
-      z-index: 98;
-      .slide {
-        width: 100%;
-        height: 50px;
-        background-color: blue;
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 99;
+      .content {
+        height: 100%;
       }
-    } */
+    }
   }
 }
 .mui-bar .mui-icon-extra {
