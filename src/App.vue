@@ -40,6 +40,10 @@
           </transition>
         </div>
       </div>
+      <!-- 为了便于控制滚动条，自己重写滚动条 -->
+      <!-- <div class="scroll_bar">
+        <div class="slide"></div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -60,36 +64,35 @@ export default {
     // console.log(this.$router);
   },
   mounted() {
-    window.addEventListener('scroll', this.scrollEvent, true);
+    // window.addEventListener('scroll', this.scrollEvent, true);
   },
   destroyed() {
     // window.removeEventListener('scroll', this.scrollEvent, true);
   },
   methods: {
-    scrollEvent() {
-      // 滚动视口高度(也就是当前元素的真实高度)
-      const scrollHeight = this.$refs.content.scrollHeight;
-      console.log(scrollHeight);
-      // 可见区域高度
-      const clientHeight = this.$refs.wrapper.clientHeight;
-      console.log(clientHeight);
-      // 滚动条顶部到浏览器顶部高度
-      const scrollTop = this.$refs.wrapper.scrollTop;
-      console.log(scrollTop);
-      if (scrollTop === 0) {
-        console.log('滚动条到顶了');
-        // 隐藏滚动条
-        this.$nextTick(() => {});
-      } else {
-        this.$nextTick(() => {
-          this.$refs.wrapper.style.overflowY = 'auto';
-        });
-      }
-      if (clientHeight + scrollTop === scrollHeight) {
-        console.log('滚动条触底了');
-        // 隐藏滚动条
-      }
-    },
+    // scrollEvent() {
+    //   // 滚动视口高度(也就是当前元素的真实高度)
+    //   const scrollHeight = this.$refs.content.scrollHeight;
+    //   console.log(scrollHeight);
+    //   // 可见区域高度
+    //   const clientHeight = this.$refs.wrapper.clientHeight;
+    //   console.log(clientHeight);
+    //   // 滚动条顶部到浏览器顶部高度
+    //   const scrollTop = this.$refs.wrapper.scrollTop;
+    //   console.log(scrollTop);
+    //   if (scrollTop === 0) {
+    //     console.log('滚动条到顶了');
+    //     // 隐藏滚动条
+    //   } else {
+    //     this.$nextTick(() => {
+    //       // this.$refs.wrapper.style.overflowY = 'auto';
+    //     });
+    //   }
+    //   if (clientHeight + scrollTop === scrollHeight) {
+    //     console.log('滚动条触底了');
+    //     // 隐藏滚动条
+    //   }
+    // },
     // 封装刷新页面后，flag变量销毁，回到默认值，在页面渲染出来之前。改变其值，在'/home'路径，flag为false,反之，为true
     initFlag() {
       if (this.$route.path === '/home') {
@@ -137,20 +140,23 @@ export default {
     top: 0;
     padding-top: 40px;
     padding-bottom: 50px;
+    /* 以下代码可以使Android端显示滚动条 */
     .outer {
-      /* 	position: relative; */
+      /* position: relative; */
       height: 100%;
-      overflow-x: hidden;
+      overflow: hidden;
       overflow-y: auto;
       background-color: #fff;
       /* 针对安卓端滚动条不显示的情况，添加以下伪元素，重写滚动条样式 */
       /* 定义滚动条的宽高及圆角 */
       &::-webkit-scrollbar {
+        /* display: none; */
         width: 2px;
         height: 13px;
         -webkit-border-radius: 1px;
         -moz-border-radius: 1px;
         border-radius: 1px;
+
       }
       /* 滚动条没有滑块的滚动部分 */
       &::-webkit-scrollbar-track-piece {
@@ -175,6 +181,24 @@ export default {
         border-radius: 1px;
       }
     }
+    /* .scroll_bar {
+      width: 5px;
+      background-color: #eee;
+      position: fixed;
+      right: 0;
+      top: 40px;
+      bottom: 50px;
+      z-index: 98;
+      .slide {
+        width: 100%;
+        height: 50px;
+        background-color: blue;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 99;
+      }
+    } */
   }
 }
 .mui-bar .mui-icon-extra {

@@ -4,9 +4,9 @@ module.exports = {
     open: true,
     port: 9988,
     // host设为本机IP,手机连接同一局域网进行测试
-    // host:'192.168.0.100'
+    host: '192.168.0.100'
     // pc开发测试时
-    host: '127.0.0.1'
+    // host: '127.0.0.1'
   },
   css: {
     loaderOptions: {
@@ -19,7 +19,8 @@ module.exports = {
             rootValue: 37.5,
             propList: ['*'], // 需要做转化处理的属性，如`hight`、`width`、`margin`等，`*`表示全部 默认全部处理
             //selectorBlackList正则过滤，符合的class不进行rem转化
-            selectorBlackList: ['.ig-', '.dp-']
+            selectorBlackList: ['.ig-', '.dp-'],
+            minPixelValue: 3
           })
         ]
       }
