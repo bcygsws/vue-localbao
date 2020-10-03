@@ -32,9 +32,9 @@
         <span class="mui-tab-label">设置</span>
       </router-link>
     </nav>
-    <div class="app_layout">
+    <div class="app_layout" ref="layout">
       <div class="wraper outer" ref="wrapper">
-        <div class="content">
+        <div class="content" ref="content">
           <transition>
             <router-view></router-view>
           </transition>
@@ -51,61 +51,45 @@ export default {
       flag: false
     };
   },
-  // mounted() {
-  //   // this.rightBarInit();
-  //   // // 1.禁止双指放大
-  //   // document.body.addEventListener(
-  //   // 	'touchstart',
-  //   // 	function(event) {
-  //   // 		if (event.touches.length > 1) {
-  //   // 			event.preventDefault;
-  //   // 		}
-  //   // 	},
-  //   // 	false,
-  //   // );
-  //   // var lastTouchEnd = 0;
-  //   // document.body.addEventListener(
-  //   // 	'touchend',
-  //   // 	function(event) {
-  //   // 		var now = new Date().getTime();
-  //   // 		if (now - lastTouchEnd <= 300) {
-  //   // 			e.preventDefault();
-  //   // 		}
-  //   // 		lastTouchEnd = now;
-  //   // 	},
-  //   // 	false,
-  //   // );
-  // },
+  // watch属性监控路由地址的变化，以确定【返回】按钮的显示或隐藏，当路由地址为："/home"表示在home主页，【返回】按钮应隐藏
+  // 在其他非"/home"路由时，按钮都应该隐藏
+  created() {
+    // eslint中不准许使用三元表达式
+    // this.flag = this.$route.path === '/home' ? false : true;
+    this.initFlag();
+    // console.log(this.$router);
+  },
+  mounted() {
+    window.addEventListener('scroll', this.scrollEvent, true);
+  },
+  destroyed() {
+    // window.removeEventListener('scroll', this.scrollEvent, true);
+  },
   methods: {
-    // rightBarInit() {
-    // 	// 路由切换时，默认滚动条和重写的滚动条都隐藏，只有滚动时才显示better-scroll滚动条
-    // 	this.$nextTick(() => {
-    // 		this.scroll = new Bscroll(this.$refs.wrapper, {
-    // 			// 滚动方向为y轴
-    // 			scrollY: true,
-    // 			// 纵轴方向初始化位置
-    // 			startY: 40,
-    // 			// 页面能够点击
-    // 			click: true,
-    // 			// 页面能够触摸选中
-    // 			tap: 'tap',
-    // 			// 滚动的时候会派发scroll事件，会截流
-    // 			probeType: 1,
-    // 			// 人的手指无法向水平和垂直滚动条那样做到水平或者垂直滚动，让其自由滚动
-    // 			freeScroll: true,
-    // 			disableTouch: false,
-    // 			bounce: {
-    // 				top: true,
-    // 				bottom: true,
-    // 			},
-    // 			bounceTime: 1800,
-    // 			preventDefaultException: {
-    // 				app_container: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/,
-    // 				// 当滚动超过边缘时会有一段回弹动画
-    // 			},
-    // 		});
-    // 	});
-    // },
+    scrollEvent() {
+      // 滚动视口高度(也就是当前元素的真实高度)
+      const scrollHeight = this.$refs.content.scrollHeight;
+      console.log(scrollHeight);
+      // 可见区域高度
+      const clientHeight = this.$refs.wrapper.clientHeight;
+      console.log(clientHeight);
+      // 滚动条顶部到浏览器顶部高度
+      const scrollTop = this.$refs.wrapper.scrollTop;
+      console.log(scrollTop);
+      if (scrollTop === 0) {
+        console.log('滚动条到顶了');
+        // 隐藏滚动条
+        this.$nextTick(() => {});
+      } else {
+        this.$nextTick(() => {
+          this.$refs.wrapper.style.overflowY = 'auto';
+        });
+      }
+      if (clientHeight + scrollTop === scrollHeight) {
+        console.log('滚动条触底了');
+        // 隐藏滚动条
+      }
+    },
     // 封装刷新页面后，flag变量销毁，回到默认值，在页面渲染出来之前。改变其值，在'/home'路径，flag为false,反之，为true
     initFlag() {
       if (this.$route.path === '/home') {
@@ -118,14 +102,6 @@ export default {
       // 点击一次页面中“后退”按钮，返回到上一次，即：go(-1)
       this.$router.go(-1);
     }
-  },
-  // watch属性监控路由地址的变化，以确定【返回】按钮的显示或隐藏，当路由地址为："/home"表示在home主页，【返回】按钮应隐藏
-  // 在其他非"/home"路由时，按钮都应该隐藏
-  created() {
-    // eslint中不准许使用三元表达式
-    // this.flag = this.$route.path === '/home' ? false : true;
-    this.initFlag();
-    // console.log(this.$router);
   },
   watch: {
     // 路由切换时，虚拟DOM会进行运算，只会重绘router-view那一部分内容。通过watch侦听当前路由的值是否为/home,以决定是否隐藏返回按钮。
@@ -164,7 +140,7 @@ export default {
     .outer {
       /* 	position: relative; */
       height: 100%;
-      overflow: hidden;
+      overflow-x: hidden;
       overflow-y: auto;
       background-color: #fff;
       /* 针对安卓端滚动条不显示的情况，添加以下伪元素，重写滚动条样式 */

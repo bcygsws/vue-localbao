@@ -15,6 +15,8 @@ module.exports = {
     // 有没有使用的表达式报错，0或者'off'表示关闭验证 1或者'warn'表示警告，不影响执行代码
     // 2或者'error'表示验证规则生效，不符合规则报错
     'no-unused-expressions': 0,
+    // 关闭空行检查,允许空行，当空行也不能超过100行
+    'no-multiple-empty-lines': [0, { max: 100 }],
     singleQuote: 0,
     // 关闭缩进几个空格的检查
     indent: 0,
