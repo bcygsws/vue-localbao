@@ -33,7 +33,7 @@
       </router-link>
     </nav>
     <div class="app_layout" ref="layout">
-      <div class="wrapper outer" ref="wrapper">
+      <div class="wrapper" ref="wrapper">
         <div class="content" ref="content">
           <transition>
             <router-view></router-view>
@@ -76,17 +76,30 @@ export default {
   },
   methods: {
     initBScroll() {
-      this.$nextTick(() => {
-        // 滚动条滑块原生对象
+      // this.$nextTick(() => {
+      // 滚动条滑块原生对象
+      if (!this.scroll) {
         this.scroll = new BScroll(this.$refs.wrapper, {
           scrollY: true,
+          // scrollbar: {
+          //   fade: true,
+          //   interactive: false // 1.80新增
+          // },
           scrollbar: true,
           click: true,
-          tap: true
+          // 可以触摸
+          disableTouch: false,
+          tap: true,
+          movable: true,
+          zoom: true
         });
-      });
+      } else {
+        this.scroll.refresh();
+      }
+      // });
     },
     scrollEvent() {
+      console.log(this.scroll);
       const slide = this.$refs.slide;
       // 滚动视口高度(也就是当前元素的真实高度)
       const scrollHeight = this.$refs.content.scrollHeight;
@@ -158,12 +171,23 @@ export default {
     padding-top: 40px;
     padding-bottom: 50px;
     /* 以下代码可以使Android端显示滚动条 */
-    .outer {
+    .wrapper {
       /* position: relative; */
-      height: 100%;
-      overflow: hidden;
+      /* 本父级元素不能设置height:100%,否则hasVerticalScroll为false */
+      position: absolute;
+      top: 40px;
+      left: 0;
+      bottom: 50px;
+      right: 0;
+      // height: 100%;
+      overflow-x: hidden;
       overflow-y: auto;
       background-color: #fff;
+      // 生成的和content同级的滚动条样式
+      // .bscroll-vertical-scrollbar{
+
+      // }
+
       /* 针对安卓端滚动条不显示的情况，添加以下伪元素，重写滚动条样式 */
       /* 定义滚动条的宽高及圆角 */
       &::-webkit-scrollbar {
@@ -197,9 +221,6 @@ export default {
         -webkit-border-radius: 1px;
         -moz-border-radius: 1px;
         border-radius: 1px;
-      }
-      .content {
-        height: 100%;
       }
     }
   }
