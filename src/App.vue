@@ -54,43 +54,39 @@ export default {
   data() {
     return {
       // 返回按钮的标志位，主页App.vue是最前面的页面，默认将“返回”隐藏
-      flag: false
+      flag: false,
+      bscroll: null,
+      // 定时器
+      timer: ''
     };
   },
   // watch属性监控路由地址的变化，以确定【返回】按钮的显示或隐藏，当路由地址为："/home"表示在home主页，【返回】按钮应隐藏
   // 在其他非"/home"路由时，按钮都应该隐藏
   created() {
+    console.log('created执行了吗');
     this.bscroll = null;
     // eslint中不准许使用三元表达式
     // this.flag = this.$route.path === '/home' ? false : true;
     this.initFlag();
-    // console.log(this.$router);
   },
+  // 页面刷新时执行created mounted
   mounted() {
     this.initBScroll();
-    // window.addEventListener('scroll', this.scrollEvent, true);
+    console.log('mounted执行了吗');
+    this.listenPage();
   },
+  // 路由切换时执行updated,不执行mounted
   updated() {
+    console.log('update执行了吗');
     // 解决better-scroll因为图片没有下载完导致的滚动条高度不够，无法浏览全部内容的问题。
     // 原因是better-scroll初始化是在dom加载后执行，此时图片没有下载完成，导致滚动条高度计算不准确。
     // 利用图片的complete属性进行判断，当所有图片下载完成后再对scroll重新计算。
-    const img = document
-      .getElementsByClassName('content')[0]
-      .getElementsByTagName('img');
-    console.log(img);
-    let count = 0;
-    const length = img.length;
-    if (length) {
-      const timer = setInterval(() => {
-        if (count === length) {
-          this.bscroll.refresh();
-          clearInterval(timer);
-          // 添加一个img[count]，先判断img[count]当前节点是否存在，存在了一定有complete属性。否则将一直报错complete属性undefined
-        } else if (img[count] && img[count].complete) {
-          count++;
-        }
-      }, 100);
-    }
+    this.isImgComplete();
+  },
+  destroyed() {
+    // 组件销毁时，图片可能没加载完，定时器就还在工作，强行清除定时器，并刷新
+    clearInterval(this.timer);
+    this.bscroll.refresh();
   },
   methods: {
     initBScroll() {
@@ -106,7 +102,9 @@ export default {
             click: true,
             tap: true,
             // 不允许触顶或者触底的弹跳
-            bounce: false
+            bounce: false,
+            // 启用手指触摸
+            disableTouch: false
           });
           console.log(this.bscroll);
         } else {
@@ -115,31 +113,6 @@ export default {
       }, 20);
       // });
     },
-    // scrollEvent() {
-    //   console.log(this.scroll);
-    //   const slide = this.$refs.slide;
-    //   // 滚动视口高度(也就是当前元素的真实高度)
-    //   const scrollHeight = this.$refs.content.scrollHeight;
-    //   console.log(scrollHeight);
-    //   // 可见区域高度
-    //   const clientHeight = this.$refs.wrapper.clientHeight;
-    //   console.log(clientHeight);
-    //   // 滚动条顶部到浏览器顶部高度
-    //   const scrollTop = this.$refs.wrapper.scrollTop;
-    //   console.log(scrollTop);
-    //   if (scrollTop === 0) {
-    //     console.log('滚动条到顶了');
-    //     // 隐藏滚动条
-    //   } else {
-    //     this.$nextTick(() => {
-    //       // this.$refs.wrapper.style.overflowY = 'auto';
-    //     });
-    //   }
-    //   if (clientHeight + scrollTop === scrollHeight) {
-    //     console.log('滚动条触底了');
-    //     // 隐藏滚动条
-    //   }
-    // },
     // 封装刷新页面后，flag变量销毁，回到默认值，在页面渲染出来之前。改变其值，在'/home'路径，flag为false,反之，为true
     initFlag() {
       if (this.$route.path === '/home') {
@@ -151,7 +124,48 @@ export default {
     goBack() {
       // 点击一次页面中“后退”按钮，返回到上一次，即：go(-1)
       this.$router.go(-1);
+    },
+    // 判断图片是否加载完成了
+    isImgComplete() {
+      const img = this.$refs.content.getElementsByTagName('img');
+      console.log(img);
+      let count = 0;
+      const length = img.length;
+      if (length) {
+        this.timer = setInterval(() => {
+          if (count === length) {
+            this.bscroll.refresh();
+            clearInterval(this.timer);
+            // 添加一个img[count]，先判断img[count]当前节点是否存在，存在了一定有complete属性。否则将一直报错complete属性undefined
+          } else if (img[count] && img[count].complete) {
+            count++;
+          }
+        }, 100);
+      }
+    },
+    listenPage() {
+      window.onbeforeunload = function(e) {
+        e = e || window.event;
+        if (e) {
+          e.returnValue = '关闭提示';
+        }
+        return '关闭提示';
+      };
     }
+    // 判断页面是刷新、关闭，还是初次加载
+    // ,
+    // home路径时，页面的重载事件监听
+    // reloadHomePage() {
+    //   var isPageHide = false;
+    //   window.addEventListener('pageshow', function() {
+    //     if (isPageHide) {
+    //       window.location.reload();
+    //     }
+    //   });
+    //   window.addEventListener('pagehide', function() {
+    //     isPageHide = true;
+    //   });
+    // }
   },
   watch: {
     // 路由切换时，虚拟DOM会进行运算，只会重绘router-view那一部分内容。通过watch侦听当前路由的值是否为/home,以决定是否隐藏返回按钮。
@@ -161,6 +175,7 @@ export default {
     '$route.path': function(newVal) {
       if (newVal === '/home') {
         this.flag = false;
+        // this.reloadHomePage();
       } else {
         this.flag = true;
       }
@@ -196,9 +211,6 @@ export default {
       height: 100%;
       overflow: hidden;
       background-color: #fff;
-      // 生成的和content同级的滚动条样式
-      .content {
-      }
       /* 针对安卓端滚动条不显示的情况，添加以下伪元素，重写滚动条样式 */
       /* 定义滚动条的宽高及圆角 */
       &::-webkit-scrollbar {
@@ -315,6 +327,7 @@ BUG:切换页面时，组件垂直方向有弹跳现象：页面先从界面中�
 .v-enter {
   opacity: 0;
   transform: translateX(100%);
+  position: absolute;
 }
 /* 离开动画终点 */
 .v-leave-to {

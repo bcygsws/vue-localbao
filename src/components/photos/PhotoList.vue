@@ -67,6 +67,7 @@ export default {
   },
   created() {
     this.getImgCate();
+    console.log('list页面中执行了created');
   },
   mounted() {
     // mounted钩子函数，是DOM模板编译完成，并挂载到页面上了。页面中的DOM结构被渲染完成时调用
@@ -76,6 +77,10 @@ export default {
     });
     // 图片分享--->图片列表展示，默认加载【全部】按钮所展示的图片列表，【全部】分类的id为0，设置为id的默认值
     this.getImgList(this.catId);
+    console.log('list页面中执行了mounted');
+  },
+  updated() {
+    console.log('list页面中执行了updated');
   },
   methods: {
     // 获取图片分类id
