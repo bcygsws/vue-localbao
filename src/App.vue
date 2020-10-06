@@ -52,40 +52,17 @@ export default {
   data() {
     return {
       // 返回按钮的标志位，主页App.vue是最前面的页面，默认将“返回”隐藏
-      flag: false,
-      bscroll: null,
-      // 定时器
-      timer: ''
+      flag: false
     };
   },
   // watch属性监控路由地址的变化，以确定【返回】按钮的显示或隐藏，当路由地址为："/home"表示在home主页，【返回】按钮应隐藏
   // 在其他非"/home"路由时，按钮都应该隐藏
   created() {
-    console.log('created执行了吗');
-    this.bscroll = null;
     // eslint中不准许使用三元表达式
     // this.flag = this.$route.path === '/home' ? false : true;
     this.initFlag();
   },
-  // 页面刷新时执行created mounted
-  mounted() {
-    // this.initBScroll();
-    console.log('mounted执行了吗');
-    // this.listenPage();
-  },
   // 路由切换时执行updated,不执行mounted
-  updated() {
-    console.log('update执行了吗');
-    // 解决better-scroll因为图片没有下载完导致的滚动条高度不够，无法浏览全部内容的问题。
-    // 原因是better-scroll初始化是在dom加载后执行，此时图片没有下载完成，导致滚动条高度计算不准确。
-    // 利用图片的complete属性进行判断，当所有图片下载完成后再对scroll重新计算。
-    // this.isImgComplete();
-  },
-  destroyed() {
-    // 组件销毁时，图片可能没加载完，定时器就还在工作，强行清除定时器，并刷新
-    // clearInterval(this.timer);
-    // this.bscroll.refresh();
-  },
   methods: {
     // initBScroll() {
     //   // 经验值：每个tick约为17ms,换成setTimeOut(f,20)也是无感知的
@@ -122,48 +99,7 @@ export default {
     goBack() {
       // 点击一次页面中“后退”按钮，返回到上一次，即：go(-1)
       this.$router.go(-1);
-    },
-    // 判断图片是否加载完成了
-    isImgComplete() {
-      const img = this.$refs.content.getElementsByTagName('img');
-      console.log(img);
-      let count = 0;
-      const length = img.length;
-      if (length) {
-        this.timer = setInterval(() => {
-          if (count === length) {
-            this.bscroll.refresh();
-            clearInterval(this.timer);
-            // 添加一个img[count]，先判断img[count]当前节点是否存在，存在了一定有complete属性。否则将一直报错complete属性undefined
-          } else if (img[count] && img[count].complete) {
-            count++;
-          }
-        }, 100);
-      }
-    },
-    listenPage() {
-      window.onbeforeunload = function(e) {
-        e = e || window.event;
-        if (e) {
-          e.returnValue = '关闭提示';
-        }
-        return '关闭提示';
-      };
     }
-    // 判断页面是刷新、关闭，还是初次加载
-    // ,
-    // home路径时，页面的重载事件监听
-    // reloadHomePage() {
-    //   var isPageHide = false;
-    //   window.addEventListener('pageshow', function() {
-    //     if (isPageHide) {
-    //       window.location.reload();
-    //     }
-    //   });
-    //   window.addEventListener('pagehide', function() {
-    //     isPageHide = true;
-    //   });
-    // }
   },
   watch: {
     // 路由切换时，虚拟DOM会进行运算，只会重绘router-view那一部分内容。通过watch侦听当前路由的值是否为/home,以决定是否隐藏返回按钮。
@@ -215,23 +151,23 @@ export default {
         /* 兼容：设置display:none;ios端可以实现，开始滚动条隐藏，滚动屏幕，滚动条开始显示。一段时间不操作后，
         滚动条消失。 安卓端：自己设定滚动条*/
         display: none;
-        width: 2px;
+       /*  width: 2px;
         height: 13px;
         -webkit-border-radius: 1px;
         -moz-border-radius: 1px;
-        border-radius: 1px;
+        border-radius: 1px; */
       }
       /* 滚动条没有滑块的滚动部分 */
-      &::-webkit-scrollbar-track-piece {
         /* 都等于#ffffff白色 */
+      /* &::-webkit-scrollbar-track-piece {
         background-color: rgba(0, 0, 0, 0);
         border-left: 1px solid rgba(0, 0, 0, 0);
-      }
+      } */
       /* 滚动条上的滑动滑块-同时设置background-color改变滚动条滑块的颜色 */
-      &::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 0, 0, 0.3);
+     /*  &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3); */
         /* padding-box背景绘制在衬距方框内,content-box裁剪在内容方框内，border-box默认值，没有裁剪 */
-        background-clip: padding-box;
+       /*  background-clip: padding-box;
         -webkit-border-radius: 1px;
         -moz-border-radius: 1px;
         border-radius: 1px;
@@ -242,7 +178,7 @@ export default {
         -webkit-border-radius: 1px;
         -moz-border-radius: 1px;
         border-radius: 1px;
-      }
+      } */
     }
   }
 }
