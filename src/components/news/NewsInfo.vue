@@ -1,20 +1,25 @@
 <template>
-  <div class="info_container">
-    <!-- <h4>这是列表详情组件</h4> -->
-    <h3>{{ listinfo.title }}</h3>
-    <div class="head_title">
-      <span>时间：{{ listinfo.add_time | dateFormat }}</span>
-      <span>点击次数：{{ listinfo.click }}</span>
-    </div>
-    <!--内容区-->
-    <p v-html="listinfo.content"></p>
-    <comment :listId="id"></comment>
+  <div class="info_container layout">
+    <better-scroll :data="listinfo">
+      <div class="content">
+        <!-- <h4>这是列表详情组件</h4> -->
+        <h3>{{ listinfo.title }}</h3>
+        <div class="head_title">
+          <span>时间：{{ listinfo.add_time | dateFormat }}</span>
+          <span>点击次数：{{ listinfo.click }}</span>
+        </div>
+        <!--内容区-->
+        <p v-html="listinfo.content"></p>
+        <comment :listId="id"></comment>
+      </div>
+    </better-scroll>
   </div>
 </template>
 
 <script>
 import { Toast } from 'mint-ui';
 import comment from '../subComponents/Comment.vue';
+import scroll from '../subComponents/Scroll.vue';
 export default {
   data() {
     return {
@@ -42,35 +47,36 @@ export default {
     this.getNewsInfo();
   },
   components: {
-    comment
+    comment,
+    'better-scroll': scroll
   }
 };
 </script>
 <style lang="less" scoped>
 .info_container {
   width: 100%;
-  /* 给内容区加个左右内边距 */
-  padding: 0 6px;
   h3 {
     font-size: 16px;
     margin: 15px 0;
     text-align: center;
     color: #e92312;
+    padding: 0 7px;
   }
   .head_title {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #ccc;
+    padding: 0 7px;
     > span {
       font-size: 12px;
       color: #007af0;
     }
   }
   p {
-    text-indent: 2rem;
+    text-indent: 0.8rem;
     /* 设置行间距为30px */
     line-height: 30px;
-    padding: 10px 0;
+    padding: 10px 7px;
   }
 }
 </style>

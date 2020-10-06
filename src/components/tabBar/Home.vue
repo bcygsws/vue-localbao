@@ -106,7 +106,6 @@ export default {
 
 <style lang="less" scoped>
 .home_container {
-  margin-top: 40px;
   /* 搜索区样式 */
   /deep/ .mint-search {
     height: 44px;

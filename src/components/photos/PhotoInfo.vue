@@ -1,29 +1,34 @@
 <template>
-  <div class="photoinfo_container">
-    <!-- <h4>这是图片列表详情组件</h4> -->
-    <h3>{{ imgInfo.title }}</h3>
-    <p class="time_click">
-      <span>发表时间：{{ imgInfo.add_time | dateFormat }}</span>
-      <span>点击次数：{{ imgInfo.click }}</span>
-    </p>
-    <hr />
-    <!--缩略图区域  安裝vue-preview,在main.js中安装包vue-preview,并使用use方法注册到Vue中-->
-    <!--使用步骤：
+  <div class="photoInfo_container layout">
+    <better-scroll :data="thumbsList">
+      <div class="content">
+        <!-- <h4>这是图片列表详情组件</h4> -->
+        <h3>{{ imgInfo.title }}</h3>
+        <p class="time_click">
+          <span>发表时间：{{ imgInfo.add_time | dateFormat }}</span>
+          <span>点击次数：{{ imgInfo.click }}</span>
+        </p>
+        <hr />
+        <!--缩略图区域  安裝vue-preview,在main.js中安装包vue-preview,并使用use方法注册到Vue中-->
+        <!--使用步骤：
     1.插件已经更新，img这种标签已经不能使用了，使用vue-preview标签。参考：https://blog.csdn.net/qq_36742720/article/details/83270636
     2.除了为图片添加w、h属性外，还要添加msrc属性，item.msrc=item.src,
     ../lib/css/gloabal.css样式文件也需要书写，并导入main.js文件中
     -->
-    <div class="thumbs">
-      <vue-preview :slides="thumbsList"></vue-preview>
-    </div>
-    <div class="content" v-html="imgInfo.content"></div>
-    <!--评论列表-->
-    <cmt-box :listId="imgId"></cmt-box>
+        <div class="thumbs">
+          <vue-preview :slides="thumbsList"></vue-preview>
+        </div>
+        <div class="text" v-html="imgInfo.content"></div>
+        <!--评论列表-->
+        <cmt-box :listId="imgId"></cmt-box>
+      </div>
+    </better-scroll>
   </div>
 </template>
 
 <script>
 import comment from '../subComponents/Comment.vue';
+import scroll from '../subComponents/Scroll.vue';
 export default {
   data() {
     return {
@@ -68,15 +73,17 @@ export default {
   },
   components: {
     // 注册评论子组件
-    'cmt-box': comment
+    'cmt-box': comment,
+    'better-scroll': scroll
   }
 };
 </script>
 
 <style lang="less" scoped>
-.photoinfo_container {
-  padding: 5px;
+.photoInfo_container {
+  padding: 5px 0;
   h3 {
+    width: 100%;
     margin: 5px 0;
     text-align: center;
     font-size: 14px;
@@ -86,16 +93,21 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
+    padding: 0 7px;
     > span {
       font-size: 12px;
       color: #666;
     }
   }
   /* 内容详情文本 */
-  .content {
+  .text {
     font-size: 13px;
-    text-indent: 2rem;
     line-height: 25px;
+    text-indent: 0.8rem;
+    padding: 0 7px;
+    > strong {
+      text-indent: -0.8rem;
+    }
   }
 }
 </style>

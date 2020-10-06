@@ -1,5 +1,6 @@
 <template>
-  <better-scroll :data="photoList" ref="wrapper">
+  <div class="photoList_container layout">
+  <better-scroll :data="photolist" ref="wrapper">
     <div class="content">
       <!-- <h2>这是图片列表组件</h2> -->
       <!-- 顶部滑动条，使用mui tab-top-webview-main.html中组件 -->
@@ -52,12 +53,13 @@
       </ul>
     </div>
   </better-scroll>
+  </div>
 </template>
 <script>
 // 初始化滑动条mui('.mui-scroll-wrapper').scroll()后，提示“Error in mounted hook: "ReferenceError: mui is not defined"”
 import mui from '../../plugins/mui/js/mui.min.js';
 // 导入封装的better-scroll子组件
-import Scroll from '../subComponents/Scroll.vue';
+import scroll from '../subComponents/Scroll.vue';
 export default {
   data() {
     return {
@@ -70,7 +72,7 @@ export default {
     };
   },
   components: {
-    'better-scroll': Scroll
+    'better-scroll': scroll
   },
   created() {
     this.getImgCate();
@@ -130,7 +132,6 @@ export default {
 * {
   touch-action: pan-y;
 }
-
 .mui-segmented-control {
   a.mui-control-item.mui-active {
     color: #007aff;
@@ -138,7 +139,7 @@ export default {
     background: 0 0;
   }
 }
- ul.img_list {
+ul.img_list {
   padding: 0 10px;
   li {
     width: 100%;

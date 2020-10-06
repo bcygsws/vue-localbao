@@ -39,7 +39,6 @@ export default {
   },
   // 从newsinfo父组件中获取id值，给子组件comment
   props: ['listId'],
-
   methods: {
     // 获取评论列表
     getCommentList() {
@@ -55,6 +54,7 @@ export default {
             // this.cmtlist = result.body.message;
             // c.直到加载完所有页数据，此时result.body.message为[]。[].concat([1,2,3]) 结果是[1,2,3],说明空数组也是concat方法的
             this.cmtlist = result.body.message.concat(this.cmtlist);
+            this.$emit('getlist', this.cmtlist);
           } else {
             Toast('获取评论列表失败……');
           }
@@ -108,15 +108,15 @@ export default {
 <style lang="less" scoped>
 .cmt_container {
   width: 100%;
-  padding: 0 7px;
+  text-align: center;
   h3 {
     font-size: 18px;
     border-bottom: 1px solid #ccc;
-    padding: 5px 0;
+    padding: 5px 7px;
   }
   textarea {
-    margin-top: 10px;
-    width: 100%;
+    width: 96%;
+    margin: 10px 7px 0 7px;
     height: 130px;
     /* 伪元素设置text-area中placeholder字体大小 */
     &::placeholder {
@@ -124,10 +124,12 @@ export default {
     }
   }
   button {
-    width: 100%;
+    width: 96%;
   }
   dl {
     margin: 5px 0;
+    width: 96%;
+    margin-left: 2%;
     dt {
       background-color: #ccc;
       height: 30px;
@@ -141,6 +143,7 @@ export default {
       font-size: 13px;
       margin-left: 30px;
       padding: 10px 0;
+      text-align: left;
     }
   }
   .mint-button--primary {

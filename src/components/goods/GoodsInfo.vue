@@ -1,73 +1,77 @@
 <template>
-  <div class="goodsinfo_container">
+  <div class="goodsinfo_container layout">
     <!-- <h3>这是商品详情页</h3> -->
     <!--【添加购物车】按钮点击时，小球飞向购物车动画
     vue实现动画的三种方式：1.v-enter v-enter-active 6个类，transition设置name数值，name属性值代替默认的v
     2.animate.css 结合enter-active-class和leave-active-class类样式
     3.使用钩子函数，本例中是半场动画，采用钩子函数
     -->
-    <transition
-      @before-enter="beforeEnter"
-      @enter="enter"
-      @afterEnter="afterEnter"
-    >
-      <div class="ball" v-show="ballFlag" ref="ball"></div>
-    </transition>
-    <!-- 商品详情页轮播图子组件 -->
-    <!-- 使用mui 的card.html中的组件 -->
-    <div class="mui-card">
-      <div class="mui-card-content">
-        <div class="mui-card-content-inner">
-          <swipe :swipeList="goodsLunBo" :isFull="false"></swipe>
+    <better-scroll :data="goodsLunBo">
+      <div class="content">
+        <transition
+          @before-enter="beforeEnter"
+          @enter="enter"
+          @afterEnter="afterEnter"
+        >
+          <div class="ball" v-show="ballFlag" ref="ball"></div>
+        </transition>
+        <!-- 商品详情页轮播图子组件 -->
+        <!-- 使用mui 的card.html中的组件 -->
+        <div class="mui-card">
+          <div class="mui-card-content">
+            <div class="mui-card-content-inner">
+              <swipe :swipeList="goodsLunBo" :isFull="false"></swipe>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <!--订单详情展示  -->
-    <div class="mui-card">
-      <div class="mui-card-header">{{ orderShow.title }}</div>
-      <div class="mui-card-content">
-        <div class="mui-card-content-inner">
-          <div class="price">
-            <span>市场价：￥{{ orderShow.market_price }}</span>
-            销售价：<span>￥{{ orderShow.sell_price }}</span>
+        <!--订单详情展示  -->
+        <div class="mui-card">
+          <div class="mui-card-header">{{ orderShow.title }}</div>
+          <div class="mui-card-content">
+            <div class="mui-card-content-inner">
+              <div class="price">
+                <span>市场价：￥{{ orderShow.market_price }}</span>
+                销售价：<span>￥{{ orderShow.sell_price }}</span>
+              </div>
+              <div class="purNum">
+                <span>购买数量:</span>
+                <!--使用mui中封装的组件 numbox.html，该组件需要手动初始化-->
+                <number-box
+                  :maxVal="orderShow.stock_quantity"
+                  @getCount="getSelectedCount"
+                ></number-box>
+              </div>
+              <div class="purBtn">
+                <mt-button type="primary">立即购买</mt-button>
+                <!--文本输入框中最大值监听，动态设置后，实现'加入购物车'的点击事件-->
+                <mt-button type="danger" @click="addToShopcar"
+                  >加入购物车</mt-button
+                >
+              </div>
+            </div>
           </div>
-          <div class="purNum">
-            <span>购买数量:</span>
-            <!--使用mui中封装的组件 numbox.html，该组件需要手动初始化-->
-            <number-box
-              :maxVal="orderShow.stock_quantity"
-              @getCount="getSelectedCount"
-            ></number-box>
+        </div>
+        <!-- 商品参数 -->
+        <div class="mui-card">
+          <div class="mui-card-header">商品参数</div>
+          <div class="mui-card-content">
+            <div class="mui-card-content-inner">
+              <p>商品货号：{{ orderShow.goods_no }}</p>
+              <p>库存情况：{{ orderShow.stock_quantity }}</p>
+              <p>上架时间：{{ orderShow.add_time | dateFormat }}</p>
+            </div>
           </div>
-          <div class="purBtn">
-            <mt-button type="primary">立即购买</mt-button>
-            <!--文本输入框中最大值监听，动态设置后，实现'加入购物车'的点击事件-->
-            <mt-button type="danger" @click="addToShopcar"
-              >加入购物车</mt-button
+          <div class="mui-card-footer">
+            <mt-button type="primary" plain @click="getGoodsDesc(goodsId)"
+              >图文介绍</mt-button
+            >
+            <mt-button type="danger" plain @click="getGoodsComment(goodsId)"
+              >商品评论</mt-button
             >
           </div>
         </div>
       </div>
-    </div>
-    <!-- 商品参数 -->
-    <div class="mui-card">
-      <div class="mui-card-header">商品参数</div>
-      <div class="mui-card-content">
-        <div class="mui-card-content-inner">
-          <p>商品货号：{{ orderShow.goods_no }}</p>
-          <p>库存情况：{{ orderShow.stock_quantity }}</p>
-          <p>上架时间：{{ orderShow.add_time | dateFormat }}</p>
-        </div>
-      </div>
-      <div class="mui-card-footer">
-        <mt-button type="primary" plain @click="getGoodsDesc(goodsId)"
-          >图文介绍</mt-button
-        >
-        <mt-button type="danger" plain @click="getGoodsComment(goodsId)"
-          >商品评论</mt-button
-        >
-      </div>
-    </div>
+    </better-scroll>
   </div>
 </template>
 
@@ -75,6 +79,7 @@
 import swipe from '../subComponents/Swipe.vue';
 // 导入“数字输入框”子组件numbox
 import numbox from '../subComponents/GoodsInfoNumberBox.vue';
+import scroll from '../subComponents/Scroll.vue';
 export default {
   data() {
     return {
@@ -187,7 +192,8 @@ export default {
   },
   components: {
     swipe: swipe,
-    'number-box': numbox
+    'number-box': numbox,
+    'better-scroll': scroll
   }
 };
 </script>

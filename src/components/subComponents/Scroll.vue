@@ -1,8 +1,6 @@
 <template>
-  <div class="layout">
-    <div class="bscroll" ref="wrapper">
-      <slot></slot>
-    </div>
+  <div class="bscroll" ref="wrapper">
+    <slot></slot>
   </div>
 </template>
 
@@ -15,7 +13,7 @@ export default {
       // 当 probeType 为 2 的时候，会在屏幕滑动的过程中实时的派发 scroll 事件；当 probeType 为 3 的时候，不仅在屏幕滑动的过程中，
       // 而且在 momentum 滚动动画运行过程中实时派发 scroll 事件。如果没有设置该值，其默认值为 0，即不派发 scroll 事件
       type: Number,
-      default: 1
+      default: 3
     },
     click: {
       // better-scroll 默认会阻止浏览器的原生 click 事件。当设置为 true，better-scroll 会派发一个 click 事件，我们会给派发的 event
@@ -46,17 +44,25 @@ export default {
       if (!this.$refs.wrapper) {
         return;
       }
-      this.scroll = new Bscroll(this.$refs.wrapper, {
-        probeType: this.probeType,
-        click: this.click
-      });
-      const _this = this;
-      if (this.listenScroll) {
-        // 如果有监听滚动事件，就向外派发一个滚动事件，返回的是滚动的位置的数值
-        this.scroll.on('scroll', pos => {
-          _this.$emit('scrollPos', pos);
+      // 没有初始化滚动条时执行
+      if (!this.scroll) {
+        this.$nextTick(() => {
+          this.scroll = new Bscroll(this.$refs.wrapper, {
+            probeType: this.probeType,
+            click: this.click,
+            scrollY: true,
+            scrollbar: true
+          });
         });
       }
+      // const _this = this;
+      // if (this.listenScroll) {
+      //   // 如果有监听滚动事件，就向外派发一个滚动事件，返回的是滚动的位置的数值
+      //   this.scroll.on('scroll', pos => {
+      //     // 由于在滚动事件中，$emit前面的this指向会改变，为此需要保存该指向
+      //     _this.$emit('scrollPos', pos);
+      //   });
+      // }
     },
     enable() {
       // 启用 better-scroll, 默认 开启。
@@ -83,6 +89,7 @@ export default {
     data() {
       // 监听传入的data的数据变化时，重新计算 better-scroll，确保滚动的效果正常。
       setTimeout(() => {
+        // 调用methods中refresh方法，当数据一旦发生变化，重新计算BScroll
         this.refresh();
       }, 20);
     }
@@ -91,24 +98,11 @@ export default {
 </script>
 
 <style scoped lang="less">
-.layout {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  padding-top: 40px;
-  padding-bottom: 50px;
-  z-index: 1;
-  .bscroll {
-    position: relative;
-    z-index: 2;
-    height: 100%;
-    overflow: hidden;
-    background-color: #fff;
-    ::-webkit-scrollbar {
-      display: none;
-    }
-  }
+.bscroll {
+  position: relative;
+  z-index: 4;
+  height: 100%;
+  overflow: hidden;
+  background-color: #fff;
 }
 </style>

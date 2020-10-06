@@ -32,15 +32,13 @@
         <span class="mui-tab-label">设置</span>
       </router-link>
     </nav>
-    <!-- <div class="app_layout" ref="layout"> -->
-      <!-- <div class="wrapper" ref="wrapper"> -->
-        <!-- <div class="content" ref="content"> -->
-          <transition>
-              <router-view></router-view>
-          </transition>
-        <!-- </div> -->
-      <!-- </div> -->
-    <!-- </div> -->
+    <div class="app_layout">
+      <div class="outer">
+        <transition>
+          <router-view></router-view>
+        </transition>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -81,12 +79,12 @@ export default {
     // 解决better-scroll因为图片没有下载完导致的滚动条高度不够，无法浏览全部内容的问题。
     // 原因是better-scroll初始化是在dom加载后执行，此时图片没有下载完成，导致滚动条高度计算不准确。
     // 利用图片的complete属性进行判断，当所有图片下载完成后再对scroll重新计算。
-    this.isImgComplete();
+    // this.isImgComplete();
   },
   destroyed() {
     // 组件销毁时，图片可能没加载完，定时器就还在工作，强行清除定时器，并刷新
-    clearInterval(this.timer);
-    this.bscroll.refresh();
+    // clearInterval(this.timer);
+    // this.bscroll.refresh();
   },
   methods: {
     // initBScroll() {
@@ -204,13 +202,13 @@ export default {
     padding-bottom: 50px;
     z-index: 1;
     /* 以下代码可以使Android端显示滚动条 */
-    .wrapper {
+    .outer {
       position: relative;
       z-index: 2;
       /* 本父级元素不能设置height:100%,否则hasVerticalScroll为false */
       height: 100%;
-      overflow: hidden;
       background-color: #fff;
+      overflow: hidden;
       /* 针对安卓端滚动条不显示的情况，添加以下伪元素，重写滚动条样式 */
       /* 定义滚动条的宽高及圆角 */
       &::-webkit-scrollbar {
@@ -339,7 +337,7 @@ BUG:切换页面时，组件垂直方向有弹跳现象：页面先从界面中�
 /* 过渡时间和方式 */
 .v-enter-active,
 .v-leave-active {
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
 }
 /*购物车原本样式*/
 /* 去掉mui-icon之前相关的样式，和mui-icon-extra现有样式对比*/

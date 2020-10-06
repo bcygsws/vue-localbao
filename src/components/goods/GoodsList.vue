@@ -1,60 +1,65 @@
 <template>
-  <div class="goods_container">
-    <!--<h3>这是商品列表页</h3>-->
-    <div class="goodslist">
-      <!--注意：item.id等于95的打印机图片显示异常，为数据接口的问题，使用v-if和v-else处理，用本地图片替代-->
-      <!--a.声明式。本质：点击router-link时，内部实际上就是调用了router实例.push()方法实现的路由跳转，之前的路由改造方式-->
-      <!--<router-link
-        class="goodsitem"
-        v-for="item in goodsData"
-        :key="item.id"
-        :to="'/home/goodsinfo/' + item.id"
-        tag="div"
-      >
-        <img v-if="item.id != 95" :src="item.img_url" alt="" />
-        <img v-else src="../../images/alt-print.jpg" alt="" />
-        <h3>{{ item.title }}</h3>
-        <dl>
-          <dt class="price">
-            <span>￥{{ item.sell_price }}</span>
-            <span>{{ item.market_price }}</span>
-          </dt>
-          <dd class="sell">
-            <span>热卖中</span>
-            <span>剩余{{ item.stock_quantity }}件</span>
-          </dd>
-        </dl>
-      </router-link>-->
-      <!--b.编程式导航，路由改造方式-->
-      <div
-        class="goodsitem"
-        v-for="item in goodsData"
-        :key="item.id"
-        @click="getDetail(item.id)"
-      >
-        <!--item.id等于95的打印机图片显示异常，为数据接口的问题，使用v-if和v-else处理，用本地图片替代-->
-        <img v-if="item.id != 95" :src="item.img_url" alt="" />
-        <img v-else src="../../assets/images/alt-print.jpg" alt="" />
-        <h3>{{ item.title }}</h3>
-        <dl>
-          <dt class="price">
-            <span>￥{{ item.sell_price }}</span>
-            <span>{{ item.market_price }}</span>
-          </dt>
-          <dd class="sell">
-            <span>热卖中</span>
-            <span>剩余{{ item.stock_quantity }}件</span>
-          </dd>
-        </dl>
+  <div class="goods_container layout">
+    <better-scroll :data="goodsData">
+      <div class="content">
+        <!--<h3>这是商品列表页</h3>-->
+        <div class="goodslist">
+          <!--注意：item.id等于95的打印机图片显示异常，为数据接口的问题，使用v-if和v-else处理，用本地图片替代-->
+          <!--a.声明式。本质：点击router-link时，内部实际上就是调用了router实例.push()方法实现的路由跳转，之前的路由改造方式-->
+          <!--<router-link
+    class="goodsitem"
+    v-for="item in goodsData"
+    :key="item.id"
+    :to="'/home/goodsinfo/' + item.id"
+    tag="div"
+  >
+    <img v-if="item.id != 95" :src="item.img_url" alt="" />
+    <img v-else src="../../images/alt-print.jpg" alt="" />
+    <h3>{{ item.title }}</h3>
+    <dl>
+      <dt class="price">
+        <span>￥{{ item.sell_price }}</span>
+        <span>{{ item.market_price }}</span>
+      </dt>
+      <dd class="sell">
+        <span>热卖中</span>
+        <span>剩余{{ item.stock_quantity }}件</span>
+      </dd>
+    </dl>
+  </router-link>-->
+          <!--b.编程式导航，路由改造方式-->
+          <div
+            class="goodsitem"
+            v-for="item in goodsData"
+            :key="item.id"
+            @click="getDetail(item.id)"
+          >
+            <!--item.id等于95的打印机图片显示异常，为数据接口的问题，使用v-if和v-else处理，用本地图片替代-->
+            <img v-if="item.id != 95" :src="item.img_url" alt="" />
+            <img v-else src="../../assets/images/alt-print.jpg" alt="" />
+            <h3>{{ item.title }}</h3>
+            <dl>
+              <dt class="price">
+                <span>￥{{ item.sell_price }}</span>
+                <span>{{ item.market_price }}</span>
+              </dt>
+              <dd class="sell">
+                <span>热卖中</span>
+                <span>剩余{{ item.stock_quantity }}件</span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <!--加载更多按钮-->
+        <mt-button type="danger" @click="getMore">加载更多</mt-button>
       </div>
-    </div>
-    <!--加载更多按钮-->
-    <mt-button type="danger" @click="getMore">加载更多</mt-button>
+    </better-scroll>
   </div>
 </template>
 
 <script>
 import { Toast } from 'mint-ui';
+import scroll from '../subComponents/Scroll.vue';
 export default {
   data() {
     return {
@@ -63,6 +68,9 @@ export default {
       // 商品列表数据
       goodsData: []
     };
+  },
+  components: {
+    'better-scroll': scroll
   },
   created() {
     this.getGoodsList();
@@ -113,7 +121,7 @@ export default {
 <style lang="less" scoped>
 .goods_container {
   width: 100%;
-  padding: 7px;
+  padding: 7px 0;
   .goodslist {
     display: flex;
     flex-wrap: wrap;
@@ -130,12 +138,13 @@ export default {
       box-shadow: 0 0 8px #ccc;
       img {
         /* 要设配各种不同设备，将具体宽高值改为百分比的形式 */
-        width: 98%;
+        width: 96%;
         vertical-align: bottom;
-        margin: 0 1%;
+        margin: 0 2%;
       }
       h3 {
         font-size: 14px;
+        padding: 0 7px;
       }
       dl {
         background-color: #eee;
@@ -171,7 +180,8 @@ export default {
   /* 加载更多 */
   .mint-button {
     display: block;
-    width: 100%;
+    width: 96%;
+    margin-left: 2%;
   }
 }
 </style>
