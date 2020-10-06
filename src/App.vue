@@ -32,24 +32,24 @@
         <span class="mui-tab-label">设置</span>
       </router-link>
     </nav>
-    <div class="app_layout" ref="layout">
-      <div class="wrapper" ref="wrapper">
-        <div class="content" ref="content">
+    <!-- <div class="app_layout" ref="layout"> -->
+      <!-- <div class="wrapper" ref="wrapper"> -->
+        <!-- <div class="content" ref="content"> -->
           <transition>
-            <router-view></router-view>
+              <router-view></router-view>
           </transition>
-        </div>
-      </div>
-    </div>
+        <!-- </div> -->
+      <!-- </div> -->
+    <!-- </div> -->
   </div>
 </template>
 <script>
 // 导入better-scroll插件核心包better-scroll/core
-import BScroll from '@better-scroll/core';
-//  实例化滚动条插件
-import ScrollBar from '@better-scroll/scroll-bar';
-// 滚动条插件
-BScroll.use(ScrollBar);
+// import BScroll from '@better-scroll/core';
+// //  实例化滚动条插件
+// import ScrollBar from '@better-scroll/scroll-bar';
+// // 滚动条插件
+// BScroll.use(ScrollBar);
 export default {
   data() {
     return {
@@ -71,9 +71,9 @@ export default {
   },
   // 页面刷新时执行created mounted
   mounted() {
-    this.initBScroll();
+    // this.initBScroll();
     console.log('mounted执行了吗');
-    this.listenPage();
+    // this.listenPage();
   },
   // 路由切换时执行updated,不执行mounted
   updated() {
@@ -89,30 +89,30 @@ export default {
     this.bscroll.refresh();
   },
   methods: {
-    initBScroll() {
-      // 经验值：每个tick约为17ms,换成setTimeOut(f,20)也是无感知的
-      // this.$nextTick(() => {
-      // BUG:当前滚动条由于惯性还在滚动时，突然切换路由，新页面会出现白板？
-      // 滚动条滑块原生对象
-      setTimeout(() => {
-        if (!this.bscroll) {
-          this.bscroll = new BScroll(this.$refs.wrapper, {
-            scrollY: true,
-            scrollbar: true,
-            click: true,
-            tap: true,
-            // 不允许触顶或者触底的弹跳
-            bounce: false,
-            // 启用手指触摸
-            disableTouch: false
-          });
-          console.log(this.bscroll);
-        } else {
-          this.bscroll.refresh();
-        }
-      }, 20);
-      // });
-    },
+    // initBScroll() {
+    //   // 经验值：每个tick约为17ms,换成setTimeOut(f,20)也是无感知的
+    //   // this.$nextTick(() => {
+    //   // BUG:当前滚动条由于惯性还在滚动时，突然切换路由，新页面会出现白板？
+    //   // 滚动条滑块原生对象
+    //   setTimeout(() => {
+    //     if (!this.bscroll) {
+    //       this.bscroll = new BScroll(this.$refs.wrapper, {
+    //         scrollY: true,
+    //         scrollbar: true,
+    //         click: true,
+    //         tap: true,
+    //         // 不允许触顶或者触底的弹跳
+    //         bounce: false,
+    //         // 启用手指触摸
+    //         disableTouch: false
+    //       });
+    //       console.log(this.bscroll);
+    //     } else {
+    //       this.bscroll.refresh();
+    //     }
+    //   }, 20);
+    //   // });
+    // },
     // 封装刷新页面后，flag变量销毁，回到默认值，在页面渲染出来之前。改变其值，在'/home'路径，flag为false,反之，为true
     initFlag() {
       if (this.$route.path === '/home') {
