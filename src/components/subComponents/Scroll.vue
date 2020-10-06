@@ -51,6 +51,7 @@ export default {
             probeType: this.probeType,
             click: this.click,
             scrollY: true,
+            // 必须设置，否则滚动条不显示
             scrollbar: true
           });
         });
