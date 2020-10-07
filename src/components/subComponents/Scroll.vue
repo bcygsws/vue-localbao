@@ -105,5 +105,8 @@ export default {
   height: 100%;
   overflow: hidden;
   background-color: #fff;
+  .bscroll-indicator {
+    z-index: 9999 !important;
+  }
 }
 </style>

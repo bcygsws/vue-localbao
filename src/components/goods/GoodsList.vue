@@ -126,6 +126,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    padding: 0 7px;
     .goodsitem {
       width: 49%;
       margin: 3px 1px;
@@ -138,13 +139,12 @@ export default {
       box-shadow: 0 0 8px #ccc;
       img {
         /* 要设配各种不同设备，将具体宽高值改为百分比的形式 */
-        width: 96%;
+        width: 100%;
         vertical-align: bottom;
-        margin: 0 2%;
       }
       h3 {
-        font-size: 14px;
-        padding: 0 7px;
+        font-size: 13px;
+        line-height: 20px;
       }
       dl {
         background-color: #eee;

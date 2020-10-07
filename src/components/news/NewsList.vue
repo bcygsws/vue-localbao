@@ -5,7 +5,6 @@
       <div class="content">
         <!-- <h1>这是新闻列表组件</h1> -->
         <!-- 使用mui库中的media-list.html中组件 -->
-
         <ul class="mui-table-view">
           <li
             class="mui-table-view-cell mui-media"
@@ -59,26 +58,34 @@ export default {
 
 <style lang="less" scoped>
 .news_container {
-  width: 100%;
-  .mui-table-view-cell {
-    width: 100%;
-    .mui-media-body {
-      > h3 {
-        font-size: 13px;
+  .mui-table-view {
+    /* 由padding改为margin，padding在ios端会出现滚动条被压在内容区下面的bug */
+    margin: 0 7px;
+    z-index: 15;
+    .mui-table-view-cell {
+      width: 100%;
+      padding: 11px 0;
+      &::after {
+        left: 0;
       }
-      > div.mui-ellipsis {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        span {
-          font-size: 12px;
-          color: #000;
+      .mui-media-body {
+        > h3 {
+          font-size: 13px;
+        }
+        > div.mui-ellipsis {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          span {
+            font-size: 12px;
+            color: #000;
+          }
         }
       }
-    }
-    > a:not(.mui-btn) {
-      margin: 0;
-      padding: 0;
+      > a:not(.mui-btn) {
+        margin: 0;
+        padding: 0;
+      }
     }
   }
 }
