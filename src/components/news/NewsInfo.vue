@@ -57,10 +57,9 @@ export default {
   width: 100%;
   h3 {
     font-size: 16px;
-    margin: 15px 0;
     text-align: center;
     color: #e92312;
-    padding: 0 7px;
+    padding: 15px 7px 0;
   }
   .head_title {
     display: flex;
