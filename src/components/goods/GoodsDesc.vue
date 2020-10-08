@@ -43,7 +43,7 @@ export default {
           this.goodsDescList = result.body.message;
           // 必须在此处拿到goodsDescInfo对象，不能直接在data方法中直接通过this.goodsDescList[0]来拿，否则该对象的所有属性都将报undefined的错误
           this.goodsDescInfo = this.goodsDescList[0];
-          console.log(this.goodsDescInfo);
+          // console.log(this.goodsDescInfo);
         }
       });
     }

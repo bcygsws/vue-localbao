@@ -13,7 +13,7 @@ export default {
       // 当 probeType 为 2 的时候，会在屏幕滑动的过程中实时的派发 scroll 事件；当 probeType 为 3 的时候，不仅在屏幕滑动的过程中，
       // 而且在 momentum 滚动动画运行过程中实时派发 scroll 事件。如果没有设置该值，其默认值为 0，即不派发 scroll 事件
       type: Number,
-      default: 3
+      default: 1
     },
     click: {
       // better-scroll 默认会阻止浏览器的原生 click 事件。当设置为 true，better-scroll 会派发一个 click 事件，我们会给派发的 event
@@ -52,7 +52,14 @@ export default {
             click: this.click,
             scrollY: true,
             // 必须设置，否则滚动条不显示
-            scrollbar: true
+            scrollbar: true,
+            // 下面三项需要设置，方便测试滚动条的滚动效果
+            // 开启鼠标拖动
+            disableMouse: false,
+            // 启用手指触摸
+            disableTouch: false,
+            // 开启鼠标滚轮
+            mouseWheel: true
           });
         });
       }
@@ -105,8 +112,9 @@ export default {
   height: 100%;
   overflow: hidden;
   background-color: #fff;
-  .bscroll-indicator {
-    z-index: 9999 !important;
+  /deep/ div.bscroll-vertical-scrollbar {
+    width: 5px !important;
+    right: 0 !important;
   }
 }
 </style>
