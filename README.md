@@ -25,7 +25,7 @@
 - 主页的头部栏 header（使用 mint-ui 组件）和切换栏 tabbar（使用 mui 组件）的样式设计
 - tabbar 栏的功能切换-nav
   - 在 router.js 中定义路由自带的排他性样式，通过 VueRouter({})中 linkActiveClass 属性为其重写一个路由选中时的类样式名称 mui-active,router-link 中的默认定义 router-link-active
-  - 删除第一个 router-link 中的默认的 class="mui-active",以避免出现选中两个路由按钮的情况
+  - 删除第一个 router-link 中的默认的 class="mui-active"（使得和 mui tabbar 组件库中选中类样式 mui-active 同名）,以避免出现选中两个路由按钮的情况
   - tabbar 中购物车按钮，使用了扩展字体，参考 mui 官方文档进行引入文件，设置样式。同时用 mui-icon-extra 替换所有和 mui-icon 相关的样式，同时也去掉了自带的 mui-icon 类样式，添加的是 mui-icon-extra
 
 ### 首页模块
@@ -46,14 +46,14 @@
 
 - 九宫格实现
 
-  - 通过 mui 库中的 grid-default.html 来中 html 片段来模拟，将九宫改成六宫格，同时去掉 mui-col-sm-3，保留 mui-col-es-4，使得每排为三个格子
+  - 通过 mui 库中的 grid-default.html 来中 html 片段来模拟，将九宫改成六宫格，同时去掉 mui-col-sm-3，保留 mui-col-es-4(向上兼容、向下覆盖)，使得每排为三个格子
   - bug 解决：当六宫格完成后，发现路由不能正常切换了。解决思路：将原 mui-tab-item 相关的样式保存起来，将 template 中的所有的 mui-tab-item 的样式替换为 mui-tab-item2。包括使用了扩展字体的【购物车】按钮中的 mui-tab-item 也同步替换成 mui-tab-item2
 
     - 【新闻资讯】--->列表展示页
     - 六宫格【新闻资讯】按钮。作用：展示新闻列表信息
     - template 使用 mui 中的 media-list.html 中的组件
     - 新闻列表项--->新闻详情页(自己布局)
-    - 改造列表项路由，在 router.js 中添加路由匹配规则（带参数 id，指示哪一条列表信被点击了。通过在详情页中使用 this.$route.params.id 中获取）
+    - 改造列表项路由，在 router.js 中添加路由匹配规则（带参数 id，指示哪一条列表信被点击了。通过在详情页中使用 this.\$route.params.id 中获取）
     - 新闻详情页=详情内容+评论模块（用户评论框【提交评论】+评论列表展示+【加载更多】）
 
     - 【生活趣图】--->图片展示页

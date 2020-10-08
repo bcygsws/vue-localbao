@@ -42,12 +42,6 @@
   </div>
 </template>
 <script>
-// 导入better-scroll插件核心包better-scroll/core
-// import BScroll from '@better-scroll/core';
-// //  实例化滚动条插件
-// import ScrollBar from '@better-scroll/scroll-bar';
-// // 滚动条插件
-// BScroll.use(ScrollBar);
 export default {
   data() {
     return {
@@ -55,8 +49,10 @@ export default {
       flag: false
     };
   },
-  // watch属性监控路由地址的变化，以确定【返回】按钮的显示或隐藏，当路由地址为："/home"表示在home主页，【返回】按钮应隐藏
-  // 在其他非"/home"路由时，按钮都应该隐藏
+  /* 注意：
+  1.任何一个页面刷新 App组件中created mounted生命周期都会重新执行
+  2.watch属性监控路由地址的变化，以确定【返回】按钮的显示或隐藏，当路由地址为："/home"表示在home主页，【返回】按钮应隐藏
+  在其他非"/home"路由时，按钮都应该隐藏 */
   created() {
     // eslint中不准许使用三元表达式
     // this.flag = this.$route.path === '/home' ? false : true;
