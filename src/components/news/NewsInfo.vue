@@ -1,6 +1,7 @@
 <template>
   <div class="info_container layout">
     <better-scroll :data="listinfo">
+      <!-- 因为better-scroll只对wrapper的第一个子元素起作用，如果不把内容区包起来，可能出现滚动条对该页面中部分内容不生效的问题 -->
       <div class="content">
         <!-- <h4>这是列表详情组件</h4> -->
         <h3>{{ listObj.title }}</h3>
