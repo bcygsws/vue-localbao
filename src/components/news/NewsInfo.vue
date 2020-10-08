@@ -3,13 +3,13 @@
     <better-scroll :data="listinfo">
       <div class="content">
         <!-- <h4>这是列表详情组件</h4> -->
-        <h3>{{ listinfo.title }}</h3>
+        <h3>{{ listObj.title }}</h3>
         <div class="head_title">
-          <span>时间：{{ listinfo.add_time | dateFormat }}</span>
-          <span>点击次数：{{ listinfo.click }}</span>
+          <span>时间：{{ listObj.add_time | dateFormat }}</span>
+          <span>点击次数：{{ listObj.click }}</span>
         </div>
         <!--内容区-->
-        <p v-html="listinfo.content"></p>
+        <p v-html="listObj.content"></p>
         <comment :listId="id"></comment>
       </div>
     </better-scroll>
@@ -25,8 +25,10 @@ export default {
     return {
       // 当前页面是id值为多少的条目的信息，从当前页面url地址中获取id,方便数据请求
       id: this.$route.params.id,
-      // 存储内容详情对象
-      listinfo: {}
+      // 存储内容详情的数组
+      listinfo: [],
+      // 存储内容详情的对象
+      listObj: {}
     };
   },
   methods: {
@@ -34,7 +36,9 @@ export default {
       this.$http.get('api/getnew/' + this.id).then(result => {
         if (result.status === 200) {
           console.log(result.body.message);
-          this.listinfo = result.body.message[0];
+          this.listinfo = result.body.message;
+          console.log(this.listinfo);
+          this.listObj = this.listinfo[0];
         } else {
           Toast('列表详情加载失败……');
         }
@@ -59,7 +63,7 @@ export default {
     font-size: 16px;
     text-align: center;
     color: #e92312;
-    padding: 15px 7px 0;
+    padding: 10px 7px 0;
   }
   .head_title {
     display: flex;

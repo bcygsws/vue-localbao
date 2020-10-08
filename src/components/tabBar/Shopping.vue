@@ -84,10 +84,11 @@ export default {
       this.$store.state.car.forEach(item => {
         idArr.push(item.id);
       });
-      //
+      // console.log(idArr);
       this.$http
         .get('api/goods/getshopcarlist/' + idArr.join(','))
         .then(result => {
+          console.log(result);
           if (result.status === 200) {
             console.log(result.body.message);
             this.orderList = result.body.message;

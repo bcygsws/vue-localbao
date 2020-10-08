@@ -1,6 +1,6 @@
 <template>
   <div class="goodsdesc_container layout">
-    <better-scroll :data="goodsDescInfo">
+    <better-scroll :data="goodsDescList">
       <div class="content">
         <!-- <h3>这是图文详情组件</h3> -->
         <!-- 图文详情 -->
@@ -20,7 +20,9 @@ export default {
     return {
       // 当前商品id
       goodsId: this.$route.params.id,
-      // 商品图文详情列表数据
+      // 商品图文详情列表数组
+      goodsDescList: [],
+      // 商品图文详情列表对象
       goodsDescInfo: {}
     };
   },
@@ -38,7 +40,8 @@ export default {
         if (result.body.status !== 0) {
           return Toast('获取图文详情数据失败');
         } else {
-          this.goodsDescInfo = result.body.message[0];
+          this.goodsDescList = result.body.message;
+          this.goodsDescInfo = this.goodsDescList[0];
           console.log(this.goodsDescInfo);
         }
       });

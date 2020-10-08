@@ -149,25 +149,27 @@ export default {
       /* 定义滚动条的宽高及圆角 */
       &::-webkit-scrollbar {
         /* 兼容：设置display:none;ios端可以实现，开始滚动条隐藏，滚动屏幕，滚动条开始显示。一段时间不操作后，
-        滚动条消失。 安卓端：自己设定滚动条*/
+        滚动条消失。 安卓端：自己设定滚动条
+        webkit内核的浏览器；其中谷歌chrome和苹果safari都是webkit内核浏览器，因此伪元素webkit-scrollbar在苹果手机
+        和安卓手机都生效*/
         display: none;
-       /*  width: 2px;
+        /*  width: 2px;
         height: 13px;
         -webkit-border-radius: 1px;
         -moz-border-radius: 1px;
         border-radius: 1px; */
       }
       /* 滚动条没有滑块的滚动部分 */
-        /* 都等于#ffffff白色 */
+      /* 都等于#ffffff白色 */
       /* &::-webkit-scrollbar-track-piece {
         background-color: rgba(0, 0, 0, 0);
         border-left: 1px solid rgba(0, 0, 0, 0);
       } */
       /* 滚动条上的滑动滑块-同时设置background-color改变滚动条滑块的颜色 */
-     /*  &::-webkit-scrollbar-thumb {
+      /*  &::-webkit-scrollbar-thumb {
         background-color: rgba(0, 0, 0, 0.3); */
-        /* padding-box背景绘制在衬距方框内,content-box裁剪在内容方框内，border-box默认值，没有裁剪 */
-       /*  background-clip: padding-box;
+      /* padding-box背景绘制在衬距方框内,content-box裁剪在内容方框内，border-box默认值，没有裁剪 */
+      /*  background-clip: padding-box;
         -webkit-border-radius: 1px;
         -moz-border-radius: 1px;
         border-radius: 1px;
