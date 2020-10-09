@@ -13,7 +13,7 @@ export default {
       // 当 probeType 为 2 的时候，会在屏幕滑动的过程中实时的派发 scroll 事件；当 probeType 为 3 的时候，不仅在屏幕滑动的过程中，
       // 而且在 momentum 滚动动画运行过程中实时派发 scroll 事件。如果没有设置该值，其默认值为 0，即不派发 scroll 事件
       type: Number,
-      default: 1
+      default: 2
     },
     click: {
       // better-scroll 默认会阻止浏览器的原生 click 事件。当设置为 true，better-scroll 会派发一个 click 事件，我们会给派发的 event
@@ -30,6 +30,15 @@ export default {
       // 是否监听滚动，返回的滚动的位置
       type: Boolean,
       default: true
+    },
+    // 用于派发是否滚动到底部事件，用于上拉加载
+    pullup: {
+      type: Boolean,
+      default: false
+    },
+    pulldown: {
+      type: Boolean,
+      default: false
     }
   },
   mounted() {
@@ -59,10 +68,30 @@ export default {
             // 启用手指触摸
             disableTouch: false,
             // 开启鼠标滚轮
-            mouseWheel: true
+            mouseWheel: true,
+            // 开启上拉加载
+            pullUpLoad: true
           });
         });
       }
+      // 是否派发滚动到底部事件，用于上拉加载
+      if (this.pullup) {
+        this.scroll.on('scrollEnd', () => {
+          // 滚动到底部
+          if (this.scroll.y <= this.scroll.maxScrollY + 50) {
+            this.$emit('scrolltoend');
+          }
+        });
+      }
+      // 用于派发顶部下拉事件，下拉刷新
+      // if (this.pulldown) {
+      //   this.scroll.on('touchend', pos => {
+      //     // 下拉动作
+      //     if (pos.y > 50) {
+      //       this.$emit('pulldown');
+      //     }
+      //   });
+      // }
       // const _this = this;
       // if (this.listenScroll) {
       //   // 如果有监听滚动事件，就向外派发一个滚动事件，返回的是滚动的位置的数值

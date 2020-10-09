@@ -29,11 +29,18 @@ export default {
       // 存储内容详情的数组
       listinfo: [],
       // 存储内容详情的对象
-      listObj: {}
+      listObj: {},
+      // 上拉加载
+      pullup: false
     };
   },
+  created() {
+    //  测试路由跳转至此页面时的当前id值
+    // console.log(this);
+    this.getNewsInfo();
+  },
   methods: {
-    getNewsInfo() {
+    async getNewsInfo() {
       this.$http.get('api/getnew/' + this.id).then(result => {
         if (result.status === 200) {
           console.log(result.body.message);
@@ -45,11 +52,6 @@ export default {
         }
       });
     }
-  },
-  created() {
-    //  测试路由跳转至此页面时的当前id值
-    // console.log(this);
-    this.getNewsInfo();
   },
   components: {
     comment,

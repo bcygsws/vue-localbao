@@ -1,6 +1,10 @@
 <template>
   <div class="goods_container layout">
-    <better-scroll :data="goodsData">
+    <better-scroll
+      :data="goodsData"
+      :pullup="isPullUpLoad"
+      @scrolltoend="pullUpHandle"
+    >
       <div class="content">
         <!--<h3>这是商品列表页</h3>-->
         <div class="goodslist">
@@ -50,8 +54,16 @@
             </dl>
           </div>
         </div>
+        <div class="pullup-tips">
+          <div v-if="!isPullUpLoad" class="before-trigger">
+            <span class="pullup-txt">加载更多</span>
+          </div>
+          <div v-else class="after-trigger">
+            <span class="pullup-txt">加载中...</span>
+          </div>
+        </div>
         <!--加载更多按钮-->
-        <mt-button type="danger" @click="getMore">加载更多</mt-button>
+        <!-- <mt-button type="danger" @click="getMore">加载更多</mt-button> -->
       </div>
     </better-scroll>
   </div>
@@ -66,7 +78,9 @@ export default {
       // 默认展示的商品列表页码为1
       pageindex: 1,
       // 商品列表数据
-      goodsData: []
+      goodsData: [],
+      // 下拉加载状态码
+      isPullUpLoad: false
     };
   },
   components: {
@@ -79,7 +93,7 @@ export default {
 
   methods: {
     // 获取商品列表数据
-    getGoodsList() {
+    async getGoodsList() {
       // 注意路由url和数据接口的区别：
       // 路由为：/home/goodslit
       // 数据接口和路由没有什么关系，只是有时数据接口会用到路由中的部分参数而已
@@ -99,6 +113,17 @@ export default {
       this.pageindex++;
       // 加载更多显示的内容置于已经显示的后面，需要对getGoodsList()方法进行改造，成为”通式“
       this.getGoodsList();
+    },
+    // 上拉加载
+    async pullUpHandle() {
+      // 1.当滚动条滚动到底部时，上拉将上拉加载状态置为true
+      this.isPullUpLoad = true;
+      // 2.每触发一次上拉加载，页码变量(默认为1，从1开始)值+1
+      this.pageindex++;
+      await this.getGoodsList();
+      this.scroll.finishPullUp();
+      this.scroll.refresh();
+      this.isPullUpLoad = false;
     },
     // 编程式导航，直接使用div.goodsitem的点击事件来跳转到 商品详情页
 
@@ -182,6 +207,12 @@ export default {
     display: block;
     width: 96%;
     margin-left: 2%;
+  }
+  /* 上拉加载区域样式 */
+  .pullup-tips {
+    padding: 20px;
+    text-align: center;
+    color: #999;
   }
 }
 </style>
