@@ -42,6 +42,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.pullup);
     // 延迟20ms执行，保证页面加载完成,因为大多浏览器每17ms刷新一次
     setTimeout(() => {
       this._initScroll();
@@ -72,15 +73,15 @@ export default {
             // 开启上拉加载
             pullUpLoad: true
           });
-        });
-      }
-      // 是否派发滚动到底部事件，用于上拉加载
-      if (this.pullup) {
-        this.scroll.on('scrollEnd', () => {
-          // 滚动到底部
-          if (this.scroll.y <= this.scroll.maxScrollY + 50) {
-            this.$emit('scrolltoend');
-          }
+          // 是否派发滚动到底部事件，用于上拉加载
+          this.scroll.on('scrollEnd', pos => {
+            // 滚动到底部
+            if (this.pullup && pos.y <= this.scroll.maxScrollY + 50) {
+              this.$emit('scrolltoend');
+            }
+            this.scroll.finishPullUp();
+            this.scroll.refresh();
+          });
         });
       }
       // 用于派发顶部下拉事件，下拉刷新

@@ -83,7 +83,6 @@ export default {
     this.getLunBo();
     // 打印路由对象
     console.log(this.$route);
-    console.log(1);
   },
   methods: {
     getLunBo() {

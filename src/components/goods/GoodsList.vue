@@ -56,7 +56,7 @@
         </div>
         <div class="pullup-tips">
           <div v-if="!isPullUpLoad" class="before-trigger">
-            <span class="pullup-txt">加载更多</span>
+            <span class="pullup-txt" ref="noMoreRef">加载更多</span>
           </div>
           <div v-else class="after-trigger">
             <span class="pullup-txt">加载中...</span>
@@ -72,6 +72,7 @@
 <script>
 import { Toast } from 'mint-ui';
 import scroll from '../subComponents/Scroll.vue';
+import BScroll from 'better-scroll';
 export default {
   data() {
     return {
@@ -80,7 +81,9 @@ export default {
       // 商品列表数据
       goodsData: [],
       // 下拉加载状态码
-      isPullUpLoad: false
+      isPullUpLoad: false,
+      // 即使请求的数据
+      curData: []
     };
   },
   components: {
@@ -89,11 +92,12 @@ export default {
   created() {
     this.getGoodsList();
     console.log(this); // 查看组件实例属性$router，$router原型中有push原型方法
+    // this.pullUpHandle();
   },
 
   methods: {
     // 获取商品列表数据
-    async getGoodsList() {
+    getGoodsList() {
       // 注意路由url和数据接口的区别：
       // 路由为：/home/goodslit
       // 数据接口和路由没有什么关系，只是有时数据接口会用到路由中的部分参数而已
@@ -101,6 +105,8 @@ export default {
         .get('api/getgoods?pageindex=' + this.pageindex)
         .then(result => {
           if (result.status === 200) {
+            //  如果result.body.message为空数组了，表示数据已经加载完成了
+            this.curData = result.body.message;
             console.log(result.body.message);
             this.goodsData = this.goodsData.concat(result.body.message);
           } else {
@@ -115,15 +121,16 @@ export default {
       this.getGoodsList();
     },
     // 上拉加载
-    async pullUpHandle() {
+    pullUpHandle() {
+      console.log('这个方法在执行吗？');
       // 1.当滚动条滚动到底部时，上拉将上拉加载状态置为true
-      this.isPullUpLoad = true;
+      // this.isPullUpLoad = true;
       // 2.每触发一次上拉加载，页码变量(默认为1，从1开始)值+1
-      this.pageindex++;
-      await this.getGoodsList();
-      this.scroll.finishPullUp();
-      this.scroll.refresh();
-      this.isPullUpLoad = false;
+      this.$nextTick(() => {
+        this.isPullUpLoad = false;
+        this.pageindex++;
+        this.getGoodsList();
+      });
     },
     // 编程式导航，直接使用div.goodsitem的点击事件来跳转到 商品详情页
 
@@ -138,6 +145,25 @@ export default {
         {path:'路由地址',params:{}},不推荐这样写，params会无效
      */
       this.$router.push({ name: 'info', params: { id: id } });
+    }
+  },
+  // 监听isPullUpload的值，值为false,表示停止上拉加载
+  watch: {
+    curData(newVal) {
+      console.log(newVal);
+      if (newVal.length) {
+        console.log(1);
+        // isPullUpLoad为false,子组件不再执行this.$emit来请求数据了
+        this.$nextTick(() => {
+          this.isPullUpLoad = true;
+        });
+        // 给出提示，没有更多了
+      } else {
+        this.isPullUpLoad = false;
+        this.$nextTick(() => {
+          this.$refs.noMoreRef.innerText = '没有更多了……';
+        });
+      }
     }
   }
 };
