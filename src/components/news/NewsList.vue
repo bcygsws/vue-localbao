@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-10-02 18:13:19
+ * @LastEditTime: 2020-10-10 00:23:59
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \12-TODOSe:\Web-project\process22-vue-cliProject\02-code\vue-localbao\src\components\news\NewsList.vue
+-->
 <template>
   <!-- 设置滚动条 -->
   <div class="news_container layout">
@@ -64,7 +72,7 @@ export default {
     z-index: 15;
     .mui-table-view-cell {
       width: 100%;
-      padding: 11px 0;
+      padding: 11px 7px;
       &::after {
         left: 0;
       }

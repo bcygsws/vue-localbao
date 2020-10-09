@@ -13,7 +13,8 @@ export default {
       // 当 probeType 为 2 的时候，会在屏幕滑动的过程中实时的派发 scroll 事件；当 probeType 为 3 的时候，不仅在屏幕滑动的过程中，
       // 而且在 momentum 滚动动画运行过程中实时派发 scroll 事件。如果没有设置该值，其默认值为 0，即不派发 scroll 事件
       type: Number,
-      default: 2
+      // default等于1时会截流，截流是指在一段时间内不过操作多少次，代码只执行一次
+      default: 1
     },
     click: {
       // better-scroll 默认会阻止浏览器的原生 click 事件。当设置为 true，better-scroll 会派发一个 click 事件，我们会给派发的 event
@@ -42,7 +43,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.pullup);
+    // console.log(this.pullup);
     // 延迟20ms执行，保证页面加载完成,因为大多浏览器每17ms刷新一次
     setTimeout(() => {
       this._initScroll();
@@ -76,7 +77,7 @@ export default {
           // 是否派发滚动到底部事件，用于上拉加载
           this.scroll.on('scrollEnd', pos => {
             // 滚动到底部
-            if (this.pullup && pos.y <= this.scroll.maxScrollY + 50) {
+            if (this.pullup && pos.y < this.scroll.maxScrollY + 60) {
               this.$emit('scrolltoend');
             }
             this.scroll.finishPullUp();

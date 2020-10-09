@@ -62,8 +62,6 @@
             <span class="pullup-txt">加载中...</span>
           </div>
         </div>
-        <!--加载更多按钮-->
-        <!-- <mt-button type="danger" @click="getMore">加载更多</mt-button> -->
       </div>
     </better-scroll>
   </div>
@@ -115,22 +113,19 @@ export default {
         });
     },
     // 加载更多按钮
-    getMore() {
-      this.pageindex++;
-      // 加载更多显示的内容置于已经显示的后面，需要对getGoodsList()方法进行改造，成为”通式“
-      this.getGoodsList();
-    },
+    // getMore() {
+    //   this.pageindex++;
+    //   // 加载更多显示的内容置于已经显示的后面，需要对getGoodsList()方法进行改造，成为”通式“
+    //   this.getGoodsList();
+    // },
     // 上拉加载
     pullUpHandle() {
       console.log('这个方法在执行吗？');
       // 1.当滚动条滚动到底部时，上拉将上拉加载状态置为true
       // this.isPullUpLoad = true;
       // 2.每触发一次上拉加载，页码变量(默认为1，从1开始)值+1
-      this.$nextTick(() => {
-        this.isPullUpLoad = false;
         this.pageindex++;
         this.getGoodsList();
-      });
     },
     // 编程式导航，直接使用div.goodsitem的点击事件来跳转到 商品详情页
 
@@ -150,16 +145,14 @@ export default {
   // 监听isPullUpload的值，值为false,表示停止上拉加载
   watch: {
     curData(newVal) {
-      console.log(newVal);
+      // console.log(newVal);
       if (newVal.length) {
-        console.log(1);
         // isPullUpLoad为false,子组件不再执行this.$emit来请求数据了
-        this.$nextTick(() => {
           this.isPullUpLoad = true;
-        });
         // 给出提示，没有更多了
       } else {
         this.isPullUpLoad = false;
+        // 必须使用$nextTick，等到DOM加载完成后，再设置innerText值，否则报错：innerText undefined错误
         this.$nextTick(() => {
           this.$refs.noMoreRef.innerText = '没有更多了……';
         });
