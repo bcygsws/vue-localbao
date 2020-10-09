@@ -80,8 +80,8 @@ export default {
             if (this.pullup && pos.y < this.scroll.maxScrollY + 60) {
               this.$emit('scrolltoend');
             }
-            this.scroll.finishPullUp();
-            this.scroll.refresh();
+              this.scroll.finishPullUp();
+              this.scroll.refresh();
           });
         });
       }
