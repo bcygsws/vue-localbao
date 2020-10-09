@@ -124,8 +124,8 @@ export default {
       // 1.当滚动条滚动到底部时，上拉将上拉加载状态置为true
       // this.isPullUpLoad = true;
       // 2.每触发一次上拉加载，页码变量(默认为1，从1开始)值+1
-        this.pageindex++;
-        this.getGoodsList();
+      this.pageindex++;
+      this.getGoodsList();
     },
     // 编程式导航，直接使用div.goodsitem的点击事件来跳转到 商品详情页
 
@@ -148,7 +148,9 @@ export default {
       // console.log(newVal);
       if (newVal.length) {
         // isPullUpLoad为false,子组件不再执行this.$emit来请求数据了
+        this.$nextTick(() => {
           this.isPullUpLoad = true;
+        });
         // 给出提示，没有更多了
       } else {
         this.isPullUpLoad = false;
