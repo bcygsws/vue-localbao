@@ -1,58 +1,58 @@
 <template>
   <div class="photoList_container layout">
-  <better-scroll :data="photolist" ref="wrapper">
-    <div class="content">
-      <!-- <h2>这是图片列表组件</h2> -->
-      <!-- 顶部滑动条，使用mui tab-top-webview-main.html中组件 -->
-      <div id="slider" class="mui-slider">
-        <div
-          id="sliderSegmentedControl"
-          class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted"
-        >
-          <div class="mui-scroll">
-            <!--默认选中【全部】这个a连接，【全部】的id为0,在获取分类数据后，自己拼接的对象。注意：在移动端中使用tap事件代替click
+    <better-scroll :data="photolist" ref="wrapper">
+      <div class="content">
+        <!-- <h2>这是图片列表组件</h2> -->
+        <!-- 顶部滑动条，使用mui tab-top-webview-main.html中组件 -->
+        <div id="slider" class="mui-slider">
+          <div
+            id="sliderSegmentedControl"
+            class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted"
+          >
+            <div class="mui-scroll">
+              <!--默认选中【全部】这个a连接，【全部】的id为0,在获取分类数据后，自己拼接的对象。注意：在移动端中使用tap事件代替click
           事件。click有200·300ms的延迟，移动端用tap代替click，可以解决一些切换bug-->
-            <!--<a
+              <!--<a
             v-for="item in catList"
             :class="['mui-control-item', item.id == 0 ? 'mui-active' : '']"
             href="#item1mobile"
             :key="item.id"
             @click="getImgList(item.id)"
           >-->
-            <a
-              v-for="item in catList"
-              :class="['mui-control-item', item.id == 0 ? 'mui-active' : '']"
-              href="#item1mobile"
-              :key="item.id"
-              @tap="getImgList(item.id)"
-            >
-              {{ item.title }}
-            </a>
+              <a
+                v-for="item in catList"
+                :class="['mui-control-item', item.id == 0 ? 'mui-active' : '']"
+                href="#item1mobile"
+                :key="item.id"
+                @tap="getImgList(item.id)"
+              >
+                {{ item.title }}
+              </a>
+            </div>
           </div>
         </div>
-      </div>
 
-      <ul class="img_list">
-        <router-link
-          v-for="item in photolist"
-          :key="item.id"
-          tag="li"
-          :to="'/home/photoinfo/' + item.id"
-        >
-          <!--但是对于服务器来说，一上来就加载数十张图片，需要向服务器发送多次请求，这样会增加服务器的压力。同时，如果图片依赖
+        <ul class="img_list">
+          <router-link
+            v-for="item in photolist"
+            :key="item.id"
+            tag="li"
+            :to="'/home/photoinfo/' + item.id"
+          >
+            <!--但是对于服务器来说，一上来就加载数十张图片，需要向服务器发送多次请求，这样会增加服务器的压力。同时，如果图片依赖
       js文件，js文件在文档顶部的话，页面的呈现将非常慢，大大影响用户体验。为此，使用懒加载技术来展示图片列表-->
-          <!--<img :src="item.img_url" alt="" />-->
-          <!--懒加载图片列表后，实现点击图片，跳转到图片详情。改造路由，将li改造为router-link,但是router-link默认渲染成a标签，
+            <!--<img :src="item.img_url" alt="" />-->
+            <!--懒加载图片列表后，实现点击图片，跳转到图片详情。改造路由，将li改造为router-link,但是router-link默认渲染成a标签，
         为此为router-link标签添加tag="li"属性，指示router-link标签将渲染成li标签-->
-          <img v-lazy="item.img_url" alt="" @load="imgLoad" />
-          <dl class="img_content">
-            <dt class="img_title">{{ item.title }}</dt>
-            <dd class="img_body">{{ item.zhaiyao }}</dd>
-          </dl>
-        </router-link>
-      </ul>
-    </div>
-  </better-scroll>
+            <img v-lazy="item.img_url" alt="" @load="imgLoad" />
+            <dl class="img_content">
+              <dt class="img_title">{{ item.title }}</dt>
+              <dd class="img_body">{{ item.zhaiyao }}</dd>
+            </dl>
+          </router-link>
+        </ul>
+      </div>
+    </better-scroll>
   </div>
 </template>
 <script>
@@ -86,10 +86,6 @@ export default {
     });
     // 图片分享--->图片列表展示，默认加载【全部】按钮所展示的图片列表，【全部】分类的id为0，设置为id的默认值
     this.getImgList(this.catId);
-    console.log('list页面中执行了mounted');
-  },
-  updated() {
-    console.log('list页面中执行了updated');
   },
   methods: {
     // 获取图片分类id
@@ -130,6 +126,7 @@ export default {
 /* 问题：浏览器下方总是出现警告，诸如：[Intervention] Unable to preventDefault inside passive event listener due to target being treated as passive. See <URL> */
 /* 添加下面样式解决 */
 * {
+  /* 启用单指垂直平移手势  */
   touch-action: pan-y;
 }
 .mui-segmented-control {

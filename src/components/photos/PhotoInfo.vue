@@ -64,7 +64,6 @@ export default {
             item.w = 600;
             item.h = 400;
             item.msrc = item.src;
-            this.thumbsList.push(item);
           });
           this.thumbsList = result.body.message;
         }
@@ -81,10 +80,9 @@ export default {
 
 <style lang="less" scoped>
 .photoInfo_container {
-  padding: 5px 0;
   h3 {
     width: 100%;
-    margin: 5px 0;
+    padding: 10px 0;
     text-align: center;
     font-size: 14px;
     color: #007aff;
@@ -107,6 +105,38 @@ export default {
     padding: 0 7px;
     > strong {
       text-indent: -0.8rem;
+    }
+  }
+  /deep/ .thumbs {
+    .my-gallery {
+      display: flex;
+      /* 设置缩略图占满一行后，环绕：即图片缩略图换行排布 */
+      flex-wrap: wrap;
+      // position: absolute;
+      /* 渲染后每一张图都是一个figure */
+      figure {
+        width: 30%;
+        margin: 5px;
+        img {
+          /* width 100px是图片在默认缩略状态时的宽度 */
+          width: 100px;
+          /* 设置img和外层的盒子底部对齐，去除和其外层盒子的间隙 */
+          vertical-align: middle;
+          border-radius: 5px;
+          box-shadow: 0 0 10px #cccccc;
+        }
+      }
+    }
+    .pswp {
+      height: 577px !important;
+      .pswp__item {
+        .pswp__zoom-wrap {
+          bottom: 263px;
+          .pswp__img {
+            // height: 100%;
+          }
+        }
+      }
     }
   }
 }
