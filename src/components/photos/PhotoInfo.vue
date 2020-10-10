@@ -108,6 +108,10 @@ export default {
     }
   }
   /deep/ .thumbs {
+    > div {
+      width: 100%;
+    }
+    display: flex;
     .my-gallery {
       display: flex;
       /* 设置缩略图占满一行后，环绕：即图片缩略图换行排布 */
@@ -128,13 +132,11 @@ export default {
       }
     }
     .pswp {
-      height: 577px !important;
+      height: 577px;
+      position: fixed;
       .pswp__item {
-        .pswp__zoom-wrap {
-          bottom: 263px;
-          .pswp__img {
-            // height: 100%;
-          }
+        .pswp__img {
+          // height: 100%;
         }
       }
     }
