@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2020-10-02 18:13:19
- * @LastEditTime: 2020-10-10 00:23:59
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \12-TODOSe:\Web-project\process22-vue-cliProject\02-code\vue-localbao\src\components\news\NewsList.vue
--->
 <template>
   <!-- 设置滚动条 -->
   <div class="news_container layout">
@@ -68,8 +60,7 @@ export default {
 .news_container {
   .mui-table-view {
     /* 由padding改为margin，padding在ios端会出现滚动条被压在内容区下面的bug */
-    margin: 0 7px;
-    z-index: 15;
+    margin: 0 5px;
     .mui-table-view-cell {
       width: 100%;
       padding: 11px 7px;
@@ -89,10 +80,6 @@ export default {
             color: #000;
           }
         }
-      }
-      > a:not(.mui-btn) {
-        margin: 0;
-        padding: 0;
       }
     }
   }
