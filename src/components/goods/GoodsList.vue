@@ -148,9 +148,12 @@ export default {
       // console.log(newVal);
       if (newVal.length) {
         // isPullUpLoad为false,子组件不再执行this.$emit来请求数据了
-        this.$nextTick(() => {
+        // this.$nextTick(() => {
+        //   this.isPullUpLoad = true;
+        // });
+        window.setTimeout(() => {
           this.isPullUpLoad = true;
-        });
+        }, 150);
         // 给出提示，没有更多了
       } else {
         this.isPullUpLoad = false;
