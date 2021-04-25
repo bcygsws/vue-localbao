@@ -4,9 +4,9 @@ module.exports = {
     open: true,
     port: 9988,
     // host设为本机IP,手机连接同一局域网进行测试
-    host: '192.168.0.102'
+    // host: '192.168.0.101'
     // pc开发测试时
-    // host: '127.0.0.1'
+    host: '127.0.0.1'
   },
   css: {
     loaderOptions: {
