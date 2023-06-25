@@ -60,7 +60,8 @@ Vue.use(VueRouter); // 安装使用
 Vue.use(VueResourse);
 // 涉及了vue请求后台数据，必须先将VueResource注册到Vue中，否则Vue.http.options会报错options没有定义
 // 为了增强代码的可维护性：做到一处修改，多处引用。对一个数据接口的主机号+端口号地址，进行全局配置。让其他组件可以共享
-Vue.http.options.root = 'http://www.liulongbin.top:3005/';
+// Vue.http.options.root = 'http://www.liulongbin.top:3005/';
+Vue.http.options.root = 'http://api.cms.liulongbin.top/';
 // 定义post请求提交表单的数据格式，默认为application/x-www-form-urlencoded。在post请求处是this.$http.post()的第三个参数
 Vue.http.options.emulateJSON = true;
 // // 导入home member search shopping共4个组件
