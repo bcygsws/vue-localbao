@@ -37,7 +37,7 @@ export default {
       // 存储缩略图图片信息的数组
       thumbsList: [],
       //   存储图片详情的对象
-      imgInfo: {}
+      imgInfo: {},
     };
   },
   created() {
@@ -68,8 +68,8 @@ export default {
           this.thumbsList = result.body.message;
         }
       });
-    }
-  },
+    },
+    },
   components: {
     // 注册评论子组件
     'cmt-box': comment,
