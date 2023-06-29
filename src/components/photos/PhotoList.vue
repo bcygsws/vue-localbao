@@ -71,11 +71,11 @@ export default {
       // 选中一个a后的存储图片的id
       photolist: [],
       // 测试后端托管静态资源的图片接口数组
-      imgList: [],
+      imgList: []
     };
   },
   components: {
-    'better-scroll': scroll,
+    'better-scroll': scroll
   },
   created() {
     this.getMyImages();
@@ -86,15 +86,22 @@ export default {
     // mounted钩子函数，是DOM模板编译完成，并挂载到页面上了。页面中的DOM结构被渲染完成时调用
     // 实际上，初始化顶部滑动条，在这个时期，因为此时DOM结构已经渲染到页面上了，屏幕中才能看到
     mui('.mui-scroll-wrapper').scroll({
-      deceleration: 0.0005, // flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+      deceleration: 0.0005 // flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
     });
     // 图片分享--->图片列表展示，默认加载【全部】按钮所展示的图片列表，【全部】分类的id为0，设置为id的默认值
     this.getImgList(this.catId);
   },
   methods: {
+    getMyImages() {
+      this.$http.get('img').then(result => {
+        console.log(result);
+        console.log(result.data.data);
+        this.imgList = result.data.data;
+      });
+    },
     // 获取图片分类id
     getImgCate() {
-      this.$http.get('api/getimgcategory').then((result) => {
+      this.$http.get('api/getimgcategory').then(result => {
         if (result.status === 200) {
           console.log(result.body.message);
           // 问题？从数据接口中获取的数据没有全部这个选项。需要自己添加这个选项 {id:0,title:'全部'}
@@ -109,7 +116,7 @@ export default {
     },
     // 获取展示图片内容
     getImgList(id) {
-      this.$http.get('api/getimages/' + id).then((result) => {
+      this.$http.get('api/getimages/' + id).then(result => {
         if (result.status === 200) {
           console.log(result.body.message);
           this.photolist = result.body.message;
@@ -122,14 +129,8 @@ export default {
         this.$refs.wrapper.refresh();
         this.checkLoad = true;
       }
-    },
-    getMyImages() {
-      this.$http.get('img').then((result) => {
-        console.log(result.data[0].data);
-        this.imgList = result.data[0].data;
-      });
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -173,7 +174,7 @@ ul.img_list {
       font-size: 13px;
       color: #ffffff;
       background: rgba(0, 0, 0, 0.4);
-      width:100%;
+      width: 100%;
       /* 清除dl的默认外边距 */
       margin: 0;
       /* 设置一个最大高度 */
