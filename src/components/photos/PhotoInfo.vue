@@ -50,8 +50,8 @@ export default {
       this.$http.get('img/' + this.imgId).then(result => {
         console.log(result);
         if (result.status === 200) {
-          console.log(result.data.data);
-          this.imgInfo = result.data.data[0];
+          console.log(result.data.message);
+          this.imgInfo = result.data.message;
         }
       });
     },

@@ -95,8 +95,8 @@ export default {
     getMyImages() {
       this.$http.get('img').then(result => {
         console.log(result);
-        console.log(result.data.data);
-        this.imgList = result.data.data;
+        console.log(result.data.message);
+        this.imgList = result.data.message;
       });
     },
     // 获取图片分类id
