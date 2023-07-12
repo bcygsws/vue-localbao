@@ -1,6 +1,6 @@
 <template>
   <div class="photoList_container layout">
-    <better-scroll :data="photolist" ref="wrapper">
+    <better-scroll :data="imgList" ref="wrapper">
       <div class="content">
         <!-- <h2>这是图片列表组件</h2> -->
         <!-- 顶部滑动条，使用mui tab-top-webview-main.html中组件 -->
@@ -68,8 +68,6 @@ export default {
       catList: [],
       // 默认加载项【全部】的分类id
       catId: 0,
-      // 选中一个a后的存储图片的id
-      photolist: [],
       // 测试后端托管静态资源的图片接口数组
       imgList: []
     };
@@ -78,8 +76,8 @@ export default {
     'better-scroll': scroll
   },
   created() {
-    this.getMyImages();
     this.getImgCate();
+    this.getImgList(0);
     console.log('list页面中执行了created');
   },
   mounted() {
@@ -89,19 +87,12 @@ export default {
       deceleration: 0.0005 // flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
     });
     // 图片分享--->图片列表展示，默认加载【全部】按钮所展示的图片列表，【全部】分类的id为0，设置为id的默认值
-    this.getImgList(this.catId);
+    // this.getImgList(this.catId);
   },
   methods: {
-    getMyImages() {
-      this.$http.get('img').then(result => {
-        console.log(result);
-        console.log(result.data.message);
-        this.imgList = result.data.message;
-      });
-    },
     // 获取图片分类id
     getImgCate() {
-      this.$http.get('api/getimgcategory').then(result => {
+      this.$http.get('imgcategory').then(result => {
         if (result.status === 200) {
           console.log(result.body.message);
           // 问题？从数据接口中获取的数据没有全部这个选项。需要自己添加这个选项 {id:0,title:'全部'}
@@ -116,11 +107,12 @@ export default {
     },
     // 获取展示图片内容
     getImgList(id) {
-      this.$http.get('api/getimages/' + id).then(result => {
+      this.catId = id;
+      this.$http.get('img/' + id).then(result => {
         if (result.status === 200) {
           console.log(result.body.message);
-          this.photolist = result.body.message;
-          console.log(this.photolist);
+          this.imgList = result.body.message;
+          console.log(this.imgList);
         }
       });
     },
